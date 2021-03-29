@@ -1,4 +1,4 @@
-package com.common.response;
+package com.sixkery.kike.common.response;
 
 /**
  * 封装 API 的错误码

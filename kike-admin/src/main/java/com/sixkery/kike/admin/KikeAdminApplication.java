@@ -13,10 +13,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @MapperScan("com.sixkery.basis.api.mapper")
 @ComponentScan(value = "com.sixkery.kike.common")
 @EnableSwagger2
-public class BasisApiApplication {
+public class KikeAdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BasisApiApplication.class, args);
+        SpringApplication.run(KikeAdminApplication.class, args);
     }
 
 }

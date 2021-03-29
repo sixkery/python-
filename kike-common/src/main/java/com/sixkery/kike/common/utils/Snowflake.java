@@ -1,4 +1,4 @@
-package com.common.utils;
+package com.sixkery.kike.common.utils;
 
 /**
  * 雪花算法生成 ID

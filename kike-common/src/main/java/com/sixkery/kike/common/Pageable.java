@@ -1,4 +1,4 @@
-package com.common;
+package com.sixkery.kike.common.utils;
 
 import lombok.Data;
 

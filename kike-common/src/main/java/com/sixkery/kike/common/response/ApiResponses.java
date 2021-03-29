@@ -1,4 +1,4 @@
-package com.common.response;
+package com.sixkery.kike.common.response;
 
 
 import lombok.Data;

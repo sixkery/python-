@@ -1,11 +1,11 @@
-package com.common.utils;
+package com.sixkery.kike.common.utils;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 写点注释吧，求你了!!!/\^_^/\
+ *
  *
  * @author maoning
  */

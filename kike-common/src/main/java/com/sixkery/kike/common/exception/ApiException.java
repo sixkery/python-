@@ -1,7 +1,7 @@
-package com.common.exception;
+package com.sixkery.kike.common.exception;
 
 
-import com.common.response.ErrorCode;
+import com.sixkery.kike.common.response.ErrorCode;
 
 /**
  * 自定义API异常

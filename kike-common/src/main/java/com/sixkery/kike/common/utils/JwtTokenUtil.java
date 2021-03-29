@@ -1,4 +1,4 @@
-package com.common.utils;
+package com.sixkery.kike.common.utils;
 
 import cn.hutool.core.date.DateUtil;
 import com.github.pagehelper.util.StringUtil;

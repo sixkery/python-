@@ -25,7 +25,7 @@ public class SwaggerConfiguration {
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.sixkery.basis.api.web.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.sixkery.kike.admin.web.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

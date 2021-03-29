@@ -1,4 +1,4 @@
-package com.common.utils;
+package com.sixkery.kike.common.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

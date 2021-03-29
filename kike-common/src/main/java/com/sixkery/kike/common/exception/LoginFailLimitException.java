@@ -1,4 +1,4 @@
-package com.common.exception;
+package com.sixkery.kike.common.exception;
 
 import lombok.Data;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -6,7 +6,8 @@ import org.springframework.security.authentication.InternalAuthenticationService
 /**
  * @author Exrickx
  */
-@Data
+
+
 public class LoginFailLimitException extends InternalAuthenticationServiceException {
 
     private String msg;

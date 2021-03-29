@@ -1,4 +1,5 @@
-package com.common.utils;
+package com.sixkery.kike.common.utils;
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

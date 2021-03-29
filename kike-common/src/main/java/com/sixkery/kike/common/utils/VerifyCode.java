@@ -1,4 +1,4 @@
-package com.common.utils;
+package com.sixkery.kike.common.utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
