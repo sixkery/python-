@@ -48,7 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // OPTIONS请求全部放行
                 .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 //登录和注册的接口放行，其他接口全部接受验证.antMatchers("/druid/**").anonymous()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and().headers().cacheControl();
 
