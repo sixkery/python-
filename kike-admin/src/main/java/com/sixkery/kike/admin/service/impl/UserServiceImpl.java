@@ -1,18 +1,13 @@
 package com.sixkery.kike.admin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
+import com.sixkery.kike.admin.config.vo.UserVo;
 import com.sixkery.kike.admin.entity.system.UserDO;
 import com.sixkery.kike.admin.mapper.UserMapper;
 import com.sixkery.kike.admin.service.UserService;
-import com.sixkery.kike.admin.web.dto.form.UserDTO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * <p>
@@ -28,25 +23,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Resource
     private UserMapper userMapper;
 
+
+    /**
+     * 根据用户名获得用户信息
+     *
+     * @param username 用户名
+     * @return 用户信息，密码，权限 等
+     */
     @Override
-    public UserDTO login(UserDTO userDTO) {
-        QueryWrapper<UserDO> objectQueryWrapper = new QueryWrapper<>();
-        objectQueryWrapper.eq("username", userDTO.getUsername()).eq("password",userDTO.getPassword());
-        UserDO user = userMapper.selectOne(objectQueryWrapper);
-        UserDTO userDTO1 = new UserDTO();
-        BeanUtils.copyProperties(user,userDTO1);
-        return userDTO1;
+    public UserVo findByUsername(String username) {
+        return userMapper.findUsername(username);
     }
 
     @Override
-    public PageInfo<UserDO> findAll() {
-        PageMethod.startPage(0, 8);
-        QueryWrapper<UserDO> objectQueryWrapper = new QueryWrapper<>();
-        objectQueryWrapper.eq("nickName", "zhangyu");
-        List<UserDO> rstList = userMapper.selectList(objectQueryWrapper);
-
-        return new PageInfo<>(rstList);
-
-
+    public UserVo findByMobile(String mobile) {
+        return userMapper.findByMobile(mobile);
     }
+
+    @Override
+    public UserVo findByEmail(String email) {
+        return userMapper.findByEmail(email);
+    }
+
+    @Override
+    public Object findAll() {
+        return null;
+    }
+
+
 }
+

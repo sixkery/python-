@@ -5,21 +5,24 @@ spring:
   application:
     name: nineWeb
   datasource:
+    url: jdbc:mysql://localhost:3306/medicine?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=FALSE
     username: root
-    password: sixkery@G5
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.31.23:3306/medicine?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=FALSE
+    password: sixkeryG5
+    type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      idle-timeout: 300000
-      max-lifetime: 600000
-      validation-timeout: 3000
-      connection-timeout: 60000
+      auto-commit: true
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      maximum-pool-size: 30
       minimum-idle: 10
-      maximum-pool-size: 20
+      pool-name: DatebookHikariCP
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+
+
 
   redis:
     host: localhost    # Redis服务器地址

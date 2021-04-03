@@ -1,9 +1,7 @@
 package com.sixkery.kike.admin.entity.system;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.common.BaseDO;
+import com.sixkery.kike.common.utils.BaseDO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,7 +22,6 @@ import lombok.EqualsAndHashCode;
 public class UserDO extends BaseDO {
 
     @ApiModelProperty(value = "用户ID")
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "用户名")

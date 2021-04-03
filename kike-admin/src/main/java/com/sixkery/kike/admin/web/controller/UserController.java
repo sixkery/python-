@@ -1,12 +1,11 @@
 package com.sixkery.kike.admin.web.controller;
 
 
-import com.github.pagehelper.PageInfo;
 import com.sixkery.kike.admin.entity.system.UserDO;
 import com.sixkery.kike.admin.service.UserService;
 import com.sixkery.kike.admin.web.dto.form.UserDTO;
 import com.sixkery.kike.admin.web.dto.form.UserFormDTO;
-import com.common.response.ApiResponses;
+import com.sixkery.kike.common.response.ApiResponses;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -30,15 +29,10 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @ApiOperation(value = "登录", notes = "登录")
-    @PostMapping("/login")
-    public ApiResponses<UserDTO> login(@RequestBody UserDTO userDTO) {
-        return ApiResponses.ok(userService.login(userDTO));
-    }
 
     @ApiOperation(value = "用户列表", notes = "查询所有用户信息")
     @GetMapping("/findAll")
-    public ApiResponses<PageInfo<UserDO>> findAll() {
+    public ApiResponses<Object> findAll() {
         return ApiResponses.ok(userService.findAll());
     }
 

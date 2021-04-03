@@ -2,6 +2,7 @@ package com.sixkery.kike.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import com.sixkery.kike.admin.config.vo.UserVo;
 import com.sixkery.kike.admin.web.dto.form.UserDTO;
 import com.sixkery.kike.admin.entity.system.UserDO;
 
@@ -15,18 +16,33 @@ import com.sixkery.kike.admin.entity.system.UserDO;
  */
 public interface UserService extends IService<UserDO> {
 
-    /**
-     * 登录
-     * @param userDTO 用户名 密码
-     * @return 结果
-     */
-    UserDTO login(UserDTO userDTO);
+
 
     /**
-     * 分页查询用户信息
+     * 根据用户名获得用户信息
      *
-     * @return 返回结果
+     * @param username 用户名
+     * @return 用户信息，密码，权限 等
      */
-    PageInfo<UserDO> findAll();
+    public UserVo findByUsername(String username);
 
+
+    /**
+     * 根据手机号获得用户信息
+     *
+     * @param mobile 手机号
+     * @return 用户信息，密码，权限 等
+     */
+    public UserVo findByMobile(String mobile);
+
+
+    /**
+     * 根据邮箱获得用户信息
+     *
+     * @param email 邮箱
+     * @return 用户信息，密码，权限 等
+     */
+    public UserVo findByEmail(String email);
+
+    Object findAll();
 }

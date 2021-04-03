@@ -1,18 +1,15 @@
 package com.sixkery.kike.admin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.sixkery.kike.admin.entity.system.UserDO;
-import com.sixkery.kike.admin.mapper.UserMapper;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
+import com.sixkery.kike.admin.config.SecurityUserDetails;
+import com.sixkery.kike.admin.config.vo.UserVo;
+import com.sixkery.kike.admin.service.UserService;
+import com.sixkery.kike.common.utils.NameUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 继承 security 默认的获取用户名的类
@@ -24,16 +21,22 @@ import java.util.List;
 public class CustomerServiceImpl implements UserDetailsService {
 
     @Resource
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        QueryWrapper<UserDO> objectQueryWrapper = new QueryWrapper<>();
-        objectQueryWrapper.eq("username", username);
-        UserDO userDo = userMapper.selectOne(objectQueryWrapper);
+    public UserDetails loadUserByUsername(String username) {
+        UserVo userVo;
+        if (NameUtil.username(username)) {
+            userVo = userService.findByUsername(username);
+        } else if (NameUtil.email(username)) {
+            userVo = userService.findByEmail(username);
+        } else {
+            userVo = userService.findByMobile(username);
+        }
+        if (userVo == null) {
+            throw new UsernameNotFoundException("用户名不存在！");
+        }
 
-        List<GrantedAuthority> admin = AuthorityUtils.commaSeparatedStringToAuthorityList("admin");
-        return new User(username, userDo.getPassword(), admin);
-
+        return new SecurityUserDetails(userVo);
     }
 }
