@@ -2,6 +2,7 @@ package com.sixkery.kike.common.utils;
 
 import com.sixkery.kike.common.exception.ApiException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.Cursor;
@@ -27,7 +28,7 @@ import java.util.function.Consumer;
 @Component
 public class RedisUtil {
 
-    @Resource
+    @Autowired
     private StringRedisTemplate redisTemplate;
 
 

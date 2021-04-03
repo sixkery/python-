@@ -1,9 +1,9 @@
 package com.sixkery.kike.common.utils;
 
 import cn.hutool.core.collection.CollUtil;
-import com.common.exception.ApiException;
-import com.common.response.ResultCode;
 import com.sixkery.kike.common.Constant;
+import com.sixkery.kike.common.exception.ApiException;
+import com.sixkery.kike.common.response.ResultCode;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

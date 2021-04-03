@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author sixkery
  */
 @SpringBootApplication
-@MapperScan("com.sixkery.basis.api.mapper")
+@MapperScan("com.sixkery.kike.admin.mapper")
 @ComponentScan(value = "com.sixkery.kike.common")
 @EnableSwagger2
 public class KikeAdminApplication {
