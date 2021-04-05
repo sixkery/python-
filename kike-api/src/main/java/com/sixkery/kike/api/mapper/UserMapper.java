@@ -3,6 +3,7 @@ package com.sixkery.kike.api.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sixkery.kike.api.entity.system.UserDO;
 import com.sixkery.kike.api.vo.UserVo;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -12,6 +13,7 @@ import com.sixkery.kike.api.vo.UserVo;
  * @author sixkery
  * @since 2020-11-27
  */
+
 public interface UserMapper extends BaseMapper<UserDO> {
     /**
      * 根据用户名查找用户实体

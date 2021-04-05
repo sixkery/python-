@@ -1,15 +1,14 @@
 package com.sixkery.kike.api.service;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
+import com.sixkery.kike.api.mapper.UserMapper;
+import com.sixkery.kike.api.vo.UserVo;
+import com.sixkery.kike.common.utils.NameUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.annotation.Resource;
 
 /**
  * @author: sixkery
@@ -19,11 +18,23 @@ import java.util.List;
 public class UserServiceImpl implements UserDetailsService {
 
 
+    @Resource
+    private UserMapper userMapper;
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
+        UserVo userVo;
+        if (NameUtil.username(username)) {
+            userVo = userMapper.findUsername(username);
+        } else if (NameUtil.email(username)) {
+            userVo = userMapper.findByEmail(username);
+        } else {
+            userVo = userMapper.findByMobile(username);
+        }
+        if (userVo == null) {
+            throw new UsernameNotFoundException("用户名不存在！");
+        }
+        return userVo;
 
-
-        List<GrantedAuthority> admin = AuthorityUtils.commaSeparatedStringToAuthorityList("admin");
-        return new User("sixkery", new BCryptPasswordEncoder().encode("123"), admin);
     }
 }

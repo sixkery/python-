@@ -1,4 +1,4 @@
-package com.sixkery.kike.api.web.configuration;
+package com.sixkery.kike.api.configuration;
 
 import com.sixkery.kike.api.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,7 @@
 package com.sixkery.kike.admin.service.impl;
 
-import com.sixkery.kike.api.service.UserService;
+import com.sixkery.kike.admin.service.UserService;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;

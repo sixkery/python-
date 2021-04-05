@@ -19,7 +19,7 @@
         WHERE
             u.username = #{username}
     </select>
-    <select id="findByMobile" resultType="com.sixkery.kike.api.config.vo.UserVo">
+    <select id="findByMobile" resultType="com.sixkery.kike.api.vo.UserVo">
         SELECT
             u.username,
             r.id,
@@ -37,7 +37,7 @@
             u.mobile = #{mobile}
     </select>
 
-    <select id="findByEmail" resultType="com.sixkery.kike.api.config.vo.UserVo">
+    <select id="findByEmail" resultType="com.sixkery.kike.api.vo.UserVo">
         SELECT
             u.username,
             r.id,
