@@ -18,6 +18,7 @@
     <modules>
         <module>kike-common</module>
         <module>kike-admin</module>
+        <module>kike-api</module>
 
     </modules>
 

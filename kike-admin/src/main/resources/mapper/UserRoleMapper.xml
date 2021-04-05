@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sixkery.kike.admin.mapper.UserMapper">
+<mapper namespace="com.sixkery.kike.api.mapper.UserMapper">
 
-    <select id="findUsername" resultType="com.sixkery.kike.admin.config.vo.UserVo">
+    <select id="findUsername" resultType="com.sixkery.kike.api.config.vo.UserVo">
         SELECT
             u.username,
             r.id,
@@ -19,7 +19,7 @@
         WHERE
             u.username = #{username}
     </select>
-    <select id="findByMobile" resultType="com.sixkery.kike.admin.config.vo.UserVo">
+    <select id="findByMobile" resultType="com.sixkery.kike.api.config.vo.UserVo">
         SELECT
             u.username,
             r.id,
@@ -37,7 +37,7 @@
             u.mobile = #{mobile}
     </select>
 
-    <select id="findByEmail" resultType="com.sixkery.kike.admin.config.vo.UserVo">
+    <select id="findByEmail" resultType="com.sixkery.kike.api.config.vo.UserVo">
         SELECT
             u.username,
             r.id,

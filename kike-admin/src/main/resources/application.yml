@@ -22,8 +22,10 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-
-
+jwt:
+  header: Authorization
+  secret: eyJleHAiOjE1NDMyMDUyODUsInN1YiI6ImFkbWluIiwiY3JlYXRlZCI6MTU0MDYxMzI4N # 密钥
+  expiration: 1000 * 60 * 60 * 12
   redis:
     host: localhost    # Redis服务器地址
     database: 0        # Redis数据库索引（默认为0）
