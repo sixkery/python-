@@ -1,3 +1,25 @@
 server:
   port: 8501
 
+
+spring:
+  application:
+    name: nineWeb
+  datasource:
+    url: jdbc:mysql://localhost:3306/medicine?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=FALSE
+    username: root
+    password: sixkery@G5
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: true
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      maximum-pool-size: 30
+      minimum-idle: 10
+      pool-name: DatebookHikariCP
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
