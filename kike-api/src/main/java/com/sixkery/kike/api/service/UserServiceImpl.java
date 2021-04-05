@@ -6,6 +6,7 @@ import com.sixkery.kike.common.utils.NameUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserDetailsService {
         if (userVo == null) {
             throw new UsernameNotFoundException("用户名不存在！");
         }
+//        userVo.setPassword(new BCryptPasswordEncoder().encode(userVo.getPassword()));
         return userVo;
 
     }

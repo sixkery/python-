@@ -32,7 +32,7 @@ public class UserVo extends UserDO implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-                List<GrantedAuthority> authorityList = new ArrayList<>();
+        List<GrantedAuthority> authorityList = new ArrayList<>();
 
         // 添加权限
         if (CollUtil.isNotEmpty(permissionDos)) {
@@ -57,21 +57,26 @@ public class UserVo extends UserDO implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
+    /**
+     * 密码是否过期
+     *
+     * @return 是否
+     */
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

@@ -5,6 +5,7 @@
     <select id="findUsername" resultType="com.sixkery.kike.api.vo.UserVo">
         SELECT
             u.username,
+            u.password,
             r.id,
             r.NAME,
             p.component,
@@ -17,7 +18,7 @@
                 JOIN sys_role_permission rp ON r.id = rp.role_id
                 JOIN sys_permission p ON rp.permission_id = p.id
         WHERE
-            u.username = #{username}
+            u.username = #{username} limit 1
     </select>
     <select id="findByMobile" resultType="com.sixkery.kike.api.vo.UserVo">
         SELECT
