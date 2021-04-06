@@ -10,7 +10,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -18,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -86,13 +85,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         response.setContentType("application/json;charset=utf-8");
         response.setCharacterEncoding("UTF-8");
-        Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
-        response.getWriter().write(JSON.toJSONString(ApiResponses.success(authorities, "登录成功！")));
+        String username = authResult.getName();
+
+        //将生成的authentication放入容器中，生成安全的上下文
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+
+        response.getWriter().write(JSON.toJSONString(ApiResponses.success(username, "登录成功！")));
     }
 
     /**
      * 鉴权失败进行的操作，返回 用户名或密码错误 的信息
-     */
+     */`08
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
