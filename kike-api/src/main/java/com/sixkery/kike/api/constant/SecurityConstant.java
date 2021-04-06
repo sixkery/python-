@@ -13,6 +13,8 @@ public class SecurityConstant {
      * 用户禁用状态
      */
     public static final Integer USER_STATUS_LOCK = -1;
+    public static final String POST = "POST";
+
 
 
 }

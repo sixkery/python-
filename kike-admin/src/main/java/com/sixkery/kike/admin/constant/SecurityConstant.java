@@ -15,4 +15,5 @@ public class SecurityConstant {
     public static final Integer USER_STATUS_LOCK = -1;
 
 
+
 }

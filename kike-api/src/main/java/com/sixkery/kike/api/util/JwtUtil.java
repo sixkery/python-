@@ -22,7 +22,14 @@ import java.util.Map;
 @Data
 @Component
 public class JwtUtil {
-
+    /**
+     * 私钥
+     */
+    private static final String SECRET_KEY = "sixkery";
+    /**
+     * 过期时间 毫秒,设置默认 1 周的时间过期
+     */
+    private static final long EXPIRATION_TIME = 3600000L * 24 * 7;
 
     /**
      * 从数据声明生成令牌
@@ -31,11 +38,8 @@ public class JwtUtil {
      * @return 令牌
      */
     private String generateToken(Map<String, Object> claims) {
-        Date expirationDate = new Date(System.currentTimeMillis() + SecurityConstant.EXPIRATION);
-        return Jwts.builder()
-                .setClaims(claims)
-                .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS512, SecurityConstant.SECRET).compact();
+        Date expirationDate = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
+        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
     }
 
     /**

@@ -1,7 +1,11 @@
 package com.sixkery.kike.common.response;
 
 
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 对 ApiResponses 快捷封装,通用返回对象
@@ -134,16 +138,12 @@ public class ApiResponses<T> {
     }
 
 
-//
-//    public static void print(HttpServletResponse response, ApiResponses model) throws IOException {
-//        // 如果ResponseStatus的值小于等于1000且不等于200，那么就算是失败的请求，这里设置对应的响应状态
-//        int rsCode = model.getCode();
-//        if (rsCode < 1000 && rsCode != 200) {
-//            response.setStatus(rsCode);
-//        }
-//        response.setCharacterEncoding("UTF-8");
-//        response.setHeader("Content-Type", "application/json");
-//        new ObjectMapper().writer().writeValue(response.getOutputStream(), model);
-//    }
+
+    public static void print(HttpServletResponse response, ApiResponses<Object> model) throws IOException {
+        response.setHeader("Content-Type", "application/json;charset=UTF-8");
+        response.setContentType("application/json;charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(JSON.toJSONString(model));
+    }
 
 }
