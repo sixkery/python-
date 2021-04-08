@@ -1,5 +1,6 @@
 package com.sixkery.kike.api.configuration;
 
+import com.sixkery.kike.api.configuration.security.JwtAuthenticationFilter;
 import com.sixkery.kike.api.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

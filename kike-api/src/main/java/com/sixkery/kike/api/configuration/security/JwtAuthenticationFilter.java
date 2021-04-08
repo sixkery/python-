@@ -1,4 +1,4 @@
-package com.sixkery.kike.api.configuration;
+package com.sixkery.kike.api.configuration.security;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;

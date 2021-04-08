@@ -1,4 +1,4 @@
-package com.sixkery.kike.admin.config;
+package com.sixkery.kike.api.configuration;
 
 
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;

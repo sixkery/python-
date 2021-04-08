@@ -1,4 +1,4 @@
-package com.sixkery.kike.admin.config;
+package com.sixkery.kike.api.configuration;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
