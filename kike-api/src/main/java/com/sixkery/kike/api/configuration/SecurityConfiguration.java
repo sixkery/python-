@@ -1,6 +1,8 @@
 package com.sixkery.kike.api.configuration;
 
+import com.sixkery.kike.api.configuration.security.JwtAuthenticationEntryPoint;
 import com.sixkery.kike.api.configuration.security.JwtAuthenticationFilter;
+import com.sixkery.kike.api.configuration.security.RestAccessDeniedHandler;
 import com.sixkery.kike.api.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -27,12 +30,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private UserServiceImpl userService;
 
+    @Resource
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    @Resource
+    private RestAccessDeniedHandler restAccessDeniedHandler;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        // 前后端分离项目不创建 session 使用 token 禁用缓存
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().headers().cacheControl();
         http.formLogin().loginProcessingUrl("/login");
+
+        // 拦截账号密码 覆盖 UsernamePasswordAuthenticationFilter 过滤器
         http.addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        // 处理异常情况：认证失败和权限不足
+        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(restAccessDeniedHandler);
+
+
     }
     /**
      * 配置使用 默认的数据库查询用户信息

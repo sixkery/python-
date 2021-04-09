@@ -1,8 +1,8 @@
-package com.sixkery.kike.admin.filter;
+package com.sixkery.kike.api.configuration.security;
 
 import cn.hutool.core.util.StrUtil;
-import com.sixkery.kike.admin.constant.SecurityConstant;
-import com.sixkery.kike.admin.util.JwtUtil;
+import com.sixkery.kike.api.constant.SecurityConstant;
+import com.sixkery.kike.api.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -26,7 +27,7 @@ import java.io.IOException;
  * @date 2020/11/8
  */
 @Slf4j
-//@Component
+@Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired

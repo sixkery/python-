@@ -1,4 +1,4 @@
-package com.sixkery.kike.admin.filter;
+package com.sixkery.kike.api.configuration.security;
 
 import com.alibaba.fastjson.JSON;
 import com.sixkery.kike.common.response.ApiResponses;

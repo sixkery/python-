@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 /**
- * 自定义 JWT 过滤器处理登录的操作
+ * 重写 UsernamePasswordAuthenticationFilter 提取 username password
  *
  * @author sixkery
  * @date 2020/10/27
@@ -44,7 +44,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         setAuthenticationManager(authenticationManager);
     }
 
-
+    /**
+     * 提取 json 中的 username password
+     *
+     * @param request  请求
+     * @param response 响应
+     * @return 认证信息
+     * @throws AuthenticationException 异常
+     */
     @SuppressWarnings("unchecked")
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -55,7 +62,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
         // 判断请求是否是 json 格式，如果不是直接调用父类
         if (request.getContentType().equals(MediaType.APPLICATION_JSON_VALUE)) {
-            // 把 request 的 json 数据转换为 Map 提前 username password
+            // 把 request 的 json 数据转换为 Map 提取 username password
             Map<String, String> authenticationBean = null;
             UsernamePasswordAuthenticationToken authRequest = null;
             try (InputStream is = request.getInputStream()) {
@@ -98,7 +105,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         JwtUtil jwtUtil = new JwtUtil();
         String token = jwtUtil.generateToken(userDetails);
 
-        ApiResponses.print(response,ApiResponses.success(token, "登录成功！"));
+        ApiResponses.print(response, ApiResponses.success(token, "登录成功！"));
 
 
     }
