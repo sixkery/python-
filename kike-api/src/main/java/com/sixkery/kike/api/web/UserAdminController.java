@@ -1,0 +1,26 @@
+package com.sixkery.kike.api.web;
+
+import com.sixkery.kike.api.service.UserService;
+import com.sixkery.kike.common.response.ApiResponses;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+
+/**
+ * @author: sixkery
+ * @date:2021/4/5
+ */
+@RestController
+@RequestMapping("/admin")
+public class UserAdminController {
+
+    @Resource
+    private UserService userService;
+
+    @GetMapping("/info")
+    public ApiResponses<Object> userInfo() {
+        return ApiResponses.success(userService.userInfo(), "操作成功!");
+    }
+}

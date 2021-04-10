@@ -6,6 +6,7 @@ import com.sixkery.kike.api.configuration.security.RestAccessDeniedHandler;
 import com.sixkery.kike.api.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,6 +43,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().headers().cacheControl();
         http.formLogin().loginProcessingUrl("/login");
+        // 前端跨域请求会先进行一次 options 请求 // 允许对于网站静态资源的无授权访问
+        http.authorizeRequests().antMatchers(HttpMethod.GET,
+                "/",
+                "/*.html",
+                "/favicon.ico",
+                "/**/*.html",
+                "/**/*.css",
+                "/**/*.js",
+                "/swagger-resources/**",
+                "/v2/api-docs/**"
+        ).permitAll().antMatchers(HttpMethod.OPTIONS);
+                // 对登录注册要允许匿名访问;
 
         // 拦截账号密码 覆盖 UsernamePasswordAuthenticationFilter 过滤器
         http.addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
