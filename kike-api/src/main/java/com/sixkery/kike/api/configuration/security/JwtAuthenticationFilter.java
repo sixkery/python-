@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -104,8 +105,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // 生成 token
         JwtUtil jwtUtil = new JwtUtil();
         String token = jwtUtil.generateToken(userDetails);
+        HashMap<String, Object> resultMap = new HashMap<>(2);
+        resultMap.put("tokenHead", SecurityConstant.TOKEN_HEAD);
+        resultMap.put("token", token);
 
-        ApiResponses.print(response, ApiResponses.success(token, "登录成功！"));
+        ApiResponses.print(response, ApiResponses.success(resultMap, "登录成功！"));
 
 
     }

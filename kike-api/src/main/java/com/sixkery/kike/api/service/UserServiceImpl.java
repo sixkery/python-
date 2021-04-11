@@ -1,5 +1,6 @@
 package com.sixkery.kike.api.service;
 
+import com.sixkery.kike.api.entity.system.MenuDO;
 import com.sixkery.kike.api.mapper.MenuMapper;
 import com.sixkery.kike.api.mapper.UserMapper;
 import com.sixkery.kike.api.vo.UserVo;
@@ -10,9 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import springfox.documentation.spi.service.contexts.SecurityContext;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +22,7 @@ import java.util.Map;
  * @date:2021/4/5
  */
 @Service
-public class UserServiceImpl implements UserDetailsService,UserService {
+public class UserServiceImpl implements UserDetailsService, UserService {
 
 
     @Resource
@@ -48,11 +50,19 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     @Override
     public Map<String, Object> userInfo() {
 
+        // 认证信息中提取用户名
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        System.out.println("username = " + username);
 
-        menuMapper.findByUserId(1);
-        return null;
+        UserVo userVo = userMapper.findUsername(username);
+        // 获取菜单
+        List<MenuDO> menuDos = menuMapper.findByUserId(userVo.getId());
+        HashMap<String, Object> resultMap = new HashMap<>();
+        // 组转装数据
+        resultMap.put("username", username);
+        resultMap.put("menuList", menuDos);
+
+
+        return resultMap;
     }
 }

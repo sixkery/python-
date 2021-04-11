@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 /**
+ * 用户相关操作
+ *
  * @author: sixkery
  * @date:2021/4/5
  */
@@ -21,6 +23,11 @@ public class UserAdminController {
 
     @GetMapping("/info")
     public ApiResponses<Object> userInfo() {
-        return ApiResponses.success(userService.userInfo(), "操作成功!");
+        return ApiResponses.ok(userService.userInfo());
+    }
+
+    @GetMapping("/logout")
+    public ApiResponses<Object> logout() {
+        return ApiResponses.ok(null);
     }
 }

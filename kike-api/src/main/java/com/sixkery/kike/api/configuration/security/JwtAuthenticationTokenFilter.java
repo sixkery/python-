@@ -10,9 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
+    @Resource
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -45,15 +45,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             // The part after "Bearer "
             String authToken = token.substring("Bearer ".length());
             String username = jwtUtil.getUsernameFromToken(authToken);
-            if (StrUtil.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() != null) {
+            log.info("检验的用户名：{}", username);
+            if (StrUtil.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
+
                 // 查询数据库 获得用户名密码
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 // 验证 token 是否正确
                 if (jwtUtil.validateToken(authToken, userDetails)) {
+
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
+                    log.info("认证的用户:{}", username);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }

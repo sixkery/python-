@@ -22,6 +22,6 @@ public interface MenuMapper extends BaseMapper<MenuDO> {
      * @param userId 用户 ID
      * @return 菜单权限
      */
-    List<MenuDO> findByUserId(Integer userId);
+    List<MenuDO> findByUserId(Long userId);
 
 }

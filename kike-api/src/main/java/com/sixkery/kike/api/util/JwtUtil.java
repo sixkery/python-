@@ -1,6 +1,5 @@
 package com.sixkery.kike.api.util;
 
-import com.sixkery.kike.api.constant.SecurityConstant;
 import com.sixkery.kike.api.entity.system.UserDO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -51,7 +50,7 @@ public class JwtUtil {
     private Claims getClaimsFromToken(String token) {
         Claims claims;
         try {
-            claims = Jwts.parser().setSigningKey(SecurityConstant.SECRET).parseClaimsJws(token).getBody();
+            claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
         } catch (Exception e) {
             claims = null;
         }

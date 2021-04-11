@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -22,7 +22,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("tb_menu")
-@ApiModel(value="Menu对象", description="菜单表")
+@ApiModel(value = "Menu对象", description = "菜单表")
 public class MenuDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,14 +34,11 @@ public class MenuDO implements Serializable {
     @ApiModelProperty(value = "上级菜单ID")
     private Long parentId;
 
-    @ApiModelProperty(value = "菜单/按钮名称")
-    private String menuName;
+    @ApiModelProperty(value = "菜单名称")
+    private String title;
 
-    @ApiModelProperty(value = "菜单URL")
-    private String url;
-
-    @ApiModelProperty(value = "权限标识")
-    private String perms;
+    @ApiModelProperty(value = "前端名称")
+    private String name;
 
     @ApiModelProperty(value = "图标")
     private String icon;
@@ -50,13 +47,13 @@ public class MenuDO implements Serializable {
     private String type;
 
     @ApiModelProperty(value = "排序")
-    private Long orderNum;
+    private Integer sort;
 
     @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "修改时间")
-    private Date modifiedTime;
+    private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "0：不可用，1：可用")
     private Integer available;
