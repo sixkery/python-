@@ -1,7 +1,9 @@
 package com.sixkery.kike.api.service;
 
 import com.sixkery.kike.api.entity.system.MenuDO;
+import com.sixkery.kike.api.entity.system.RoleDO;
 import com.sixkery.kike.api.mapper.MenuMapper;
+import com.sixkery.kike.api.mapper.RoleMapper;
 import com.sixkery.kike.api.mapper.UserMapper;
 import com.sixkery.kike.api.vo.UserVo;
 import com.sixkery.kike.common.utils.NameUtil;
@@ -31,6 +33,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Resource
     private MenuMapper menuMapper;
 
+    @Resource
+    private RoleMapper roleMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) {
         UserVo userVo;
@@ -55,13 +60,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         String username = authentication.getName();
 
         UserVo userVo = userMapper.findUsername(username);
+        Long userId = userVo.getId();
         // 获取菜单
-        List<MenuDO> menuDos = menuMapper.findByUserId(userVo.getId());
-        HashMap<String, Object> resultMap = new HashMap<>();
+        List<MenuDO> menuDos = menuMapper.findByUserId(userId);
+        HashMap<String, Object> resultMap = new HashMap<>(3);
+        // 获取角色信息
+        List<RoleDO> roleDos = roleMapper.findByUserId(userId);
         // 组转装数据
         resultMap.put("username", username);
         resultMap.put("menuList", menuDos);
-
+        resultMap.put("roleList", roleDos);
 
         return resultMap;
     }
