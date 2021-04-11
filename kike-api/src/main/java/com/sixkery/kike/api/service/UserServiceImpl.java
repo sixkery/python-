@@ -47,9 +47,11 @@ public class UserServiceImpl implements UserDetailsService,UserService {
 
     @Override
     public Map<String, Object> userInfo() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        Object credentials = authentication.getCredentials();
+        String username = authentication.getName();
+        System.out.println("username = " + username);
+
         menuMapper.findByUserId(1);
         return null;
     }

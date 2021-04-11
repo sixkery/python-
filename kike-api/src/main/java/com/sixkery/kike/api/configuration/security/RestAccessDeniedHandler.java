@@ -1,8 +1,7 @@
 package com.sixkery.kike.api.configuration.security;
 
-import com.alibaba.fastjson.JSON;
+import cn.hutool.json.JSONUtil;
 import com.sixkery.kike.common.response.ApiResponses;
-import com.sixkery.kike.common.response.ResultCode;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -17,14 +16,17 @@ import java.io.IOException;
  * @author sixkery
  * @date 2020/11/19
  */
-@Component
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse response, AccessDeniedException e)
             throws IOException {
-        response.setContentType("application/json;charset=utf-8");
-        response.setCharacterEncoding("UTF-8");
 
-        response.getWriter().write(JSON.toJSONString(ApiResponses.failed(ResultCode.FORBIDDEN, "无权访问！")));
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.getWriter().println(JSONUtil.parse(ApiResponses.forbidden(e.getMessage())));
+        response.getWriter().flush();
+
     }
 }

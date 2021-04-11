@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * 对 ApiResponses 快捷封装,通用返回对象
@@ -64,7 +65,7 @@ public class ApiResponses<T> {
      * @param errorCode 错误码
      */
     public static <T> ApiResponses<T> failed(ErrorCode errorCode) {
-        return new ApiResponses<>(errorCode.getCode(), errorCode.getMessage(), null);
+        return new ApiResponses<>(errorCode.getCode(), errorCode.getMessage(), (T) new ArrayList<>());
     }
 
     /**
@@ -136,7 +137,6 @@ public class ApiResponses<T> {
     public static <T> ApiResponses<T> forbidden(T data) {
         return new ApiResponses<>(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMessage(), data);
     }
-
 
 
     public static void print(HttpServletResponse response, ApiResponses<Object> model) throws IOException {

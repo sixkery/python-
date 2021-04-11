@@ -1,6 +1,5 @@
 package com.sixkery.kike.api.configuration.security;
 
-import com.alibaba.fastjson.JSON;
 import com.sixkery.kike.common.response.ApiResponses;
 import com.sixkery.kike.common.response.ResultCode;
 import org.springframework.security.core.AuthenticationException;
@@ -25,7 +24,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse response, AuthenticationException e)
             throws IOException {
         // 当用户没有携带凭证访问 需要认证的资源时调用此方法
-        response.getWriter().write(JSON.toJSONString(ApiResponses.failed(ResultCode.TOKEN_NOTFOUND, "没有携带凭证！")));
+        ApiResponses.print(response, ApiResponses.failed(ResultCode.TOKEN_NOTFOUND));
 
     }
 }

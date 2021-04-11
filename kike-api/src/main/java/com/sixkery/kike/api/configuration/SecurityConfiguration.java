@@ -2,6 +2,7 @@ package com.sixkery.kike.api.configuration;
 
 import com.sixkery.kike.api.configuration.security.JwtAuthenticationEntryPoint;
 import com.sixkery.kike.api.configuration.security.JwtAuthenticationFilter;
+import com.sixkery.kike.api.configuration.security.JwtAuthenticationTokenFilter;
 import com.sixkery.kike.api.configuration.security.RestAccessDeniedHandler;
 import com.sixkery.kike.api.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Resource
     private RestAccessDeniedHandler restAccessDeniedHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -53,18 +55,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/**/*.js",
                 "/swagger-resources/**",
                 "/v2/api-docs/**"
-        ).permitAll().antMatchers(HttpMethod.OPTIONS);
-                // 对登录注册要允许匿名访问;
+        ).permitAll().antMatchers(HttpMethod.OPTIONS).permitAll();
+        // 任何请求都需要认证
+        http.authorizeRequests().anyRequest().authenticated();
+        // 对登录注册要允许匿名访问;
 
         // 拦截账号密码 覆盖 UsernamePasswordAuthenticationFilter 过滤器
         http.addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
         // 处理异常情况：认证失败和权限不足
-        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(restAccessDeniedHandler);
+        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(restAccessDeniedHandler)
+                .and().addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
     }
+
     /**
      * 配置使用 默认的数据库查询用户信息
+     *
      * @param auth 认证管理器
      * @throws Exception 异常
      */
@@ -88,10 +96,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
         return new JwtAuthenticationFilter(authenticationManager());
     }
+
     @Override
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
+    @Bean
+    public RestAccessDeniedHandler restAuthenticationEntryPoint() {
+
+        return new RestAccessDeniedHandler();
+    }
+
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+        return new JwtAuthenticationTokenFilter();
+    }
+
 
 }

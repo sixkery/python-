@@ -27,7 +27,6 @@ import java.io.IOException;
  * @date 2020/11/8
  */
 @Slf4j
-@Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -41,14 +40,16 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         // 从 request 中获取 token
-        String header = request.getHeader(SecurityConstant.HEADER);
-        if (StrUtil.isNotEmpty(header)) {
-            String username = jwtUtil.getUsernameFromToken(header);
+        String token = request.getHeader(SecurityConstant.AUTHORIZATION);
+        if (StrUtil.isNotEmpty(token)) {
+            // The part after "Bearer "
+            String authToken = token.substring("Bearer ".length());
+            String username = jwtUtil.getUsernameFromToken(authToken);
             if (StrUtil.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() != null) {
                 // 查询数据库 获得用户名密码
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 // 验证 token 是否正确
-                if (jwtUtil.validateToken(header, userDetails)) {
+                if (jwtUtil.validateToken(authToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
