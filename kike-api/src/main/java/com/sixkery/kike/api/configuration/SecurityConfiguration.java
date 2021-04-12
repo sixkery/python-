@@ -1,9 +1,6 @@
 package com.sixkery.kike.api.configuration;
 
-import com.sixkery.kike.api.configuration.security.JwtAuthenticationEntryPoint;
-import com.sixkery.kike.api.configuration.security.JwtAuthenticationFilter;
-import com.sixkery.kike.api.configuration.security.JwtAuthenticationTokenFilter;
-import com.sixkery.kike.api.configuration.security.RestAccessDeniedHandler;
+import com.sixkery.kike.api.configuration.security.*;
 import com.sixkery.kike.api.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,17 +42,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().headers().cacheControl();
         http.formLogin().loginProcessingUrl("/login");
+        //不需要保护的资源路径允许访问
+        for (String url : ignoreUrlsConfig().getUrls()) {
+            http.authorizeRequests().antMatchers(url).permitAll();
+        }
+
         // 前端跨域请求会先进行一次 options 请求 // 允许对于网站静态资源的无授权访问
-        http.authorizeRequests().antMatchers(HttpMethod.GET,
-                "/",
-                "/*.html",
-                "/favicon.ico",
-                "/**/*.html",
-                "/**/*.css",
-                "/**/*.js",
-                "/swagger-resources/**",
-                "/v2/api-docs/**"
-        ).permitAll().antMatchers(HttpMethod.OPTIONS).permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
         // 任何请求都需要认证
         http.authorizeRequests().anyRequest().authenticated();
         // 对登录注册要允许匿名访问;
@@ -114,5 +107,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new JwtAuthenticationTokenFilter();
     }
 
-
+    @Bean
+    public IgnoreUrlsConfig ignoreUrlsConfig() {
+        return new IgnoreUrlsConfig();
+    }
 }

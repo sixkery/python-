@@ -23,37 +23,39 @@
     <select id="findByMobile" resultType="com.sixkery.kike.api.vo.UserVo">
         SELECT
             u.username,
+            u.password,
             r.id,
             r.NAME,
             p.component,
-            p.title,
+            p.name,
             p.path
         FROM
             sys_user u
-                JOIN t_user_role ur ON u.id = ur.user_id
-                JOIN t_role r ON r.id = ur.role_id
-                JOIN t_role_permission rp ON r.id = rp.role_id
-                JOIN t_permission p ON rp.permission_id = p.id
+                JOIN sys_user_role ur ON u.id = ur.user_id
+                JOIN sys_role r ON r.id = ur.role_id
+                JOIN sys_role_permission rp ON r.id = rp.role_id
+                JOIN sys_permission p ON rp.permission_id = p.id
         WHERE
-            u.mobile = #{mobile}
+            u.phone = #{username} limit 1
     </select>
 
     <select id="findByEmail" resultType="com.sixkery.kike.api.vo.UserVo">
         SELECT
             u.username,
+            u.password,
             r.id,
             r.NAME,
             p.component,
-            p.title,
+            p.name,
             p.path
         FROM
             sys_user u
-                JOIN t_user_role ur ON u.id = ur.user_id
-                JOIN t_role r ON r.id = ur.role_id
-                JOIN t_role_permission rp ON r.id = rp.role_id
-                JOIN t_permission p ON rp.permission_id = p.id
+                JOIN sys_user_role ur ON u.id = ur.user_id
+                JOIN sys_role r ON r.id = ur.role_id
+                JOIN sys_role_permission rp ON r.id = rp.role_id
+                JOIN sys_permission p ON rp.permission_id = p.id
         WHERE
-            u.email = #{email}
+            u.email = #{username} limit 1
     </select>
 
 </mapper>

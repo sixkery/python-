@@ -21,7 +21,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_role")
+@TableName("sys_role")
 @ApiModel(value="Role对象", description="角色表")
 public class RoleDO implements Serializable {
 
