@@ -5,6 +5,8 @@ package com.sixkery.kike.admin.constant;
  * @date:2021/4/3
  */
 public class SecurityConstant {
+    private SecurityConstant() {
+    }
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String TOKEN_HEAD = "Bearer ";
@@ -15,7 +17,6 @@ public class SecurityConstant {
      */
     public static final Integer USER_STATUS_LOCK = -1;
     public static final String POST = "POST";
-
 
 
 }
