@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -55,8 +54,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     @SuppressWarnings("unchecked")
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         // 不是 post 请求抛出异常
         if (!request.getMethod().equals(SecurityConstant.POST)) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
@@ -96,7 +94,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                            FilterChain chain, Authentication authResult) throws IOException, ServletException {
+                                            FilterChain chain, Authentication authResult) throws IOException {
 
         UserDetails userDetails = (UserDetails) authResult.getPrincipal();
         // 将生成的 authentication 放入容器中，生成安全的上下文
@@ -119,8 +117,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                              AuthenticationException failed) throws IOException, ServletException {
-
+                                              AuthenticationException failed) throws IOException {
 
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         response.setContentType("application/json;charset=utf-8");
