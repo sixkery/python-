@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
  * @author sixkery
  * @date 2020/11/29
  */
-public class MybatisPlusConfig {
+public class MybatisPlusConfiguration {
 
     /**
      * 配置分页插件

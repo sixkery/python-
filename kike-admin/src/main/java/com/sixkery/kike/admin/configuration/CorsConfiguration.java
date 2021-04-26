@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2019/7/27
  */
 @Configuration
-public class GlobalCorsConfig implements WebMvcConfigurer {
+public class CorsConfiguration implements WebMvcConfigurer {
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("*");

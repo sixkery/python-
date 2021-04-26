@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
  * @date 2020/12/14
  */
 @Configuration
-public class DateFormConfig {
+public class DateFormConfiguration {
 
     @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
     private String pattern;
