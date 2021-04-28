@@ -1,5 +1,6 @@
 package com.sixkery.kike.admin.service;
 
+import com.sixkery.kike.admin.dto.UserDto;
 import com.sixkery.kike.admin.entity.system.MenuDO;
 import com.sixkery.kike.admin.entity.system.RoleDO;
 import com.sixkery.kike.admin.mapper.MenuMapper;
@@ -72,5 +73,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         resultMap.put("roleList", roleDos);
 
         return resultMap;
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+        userMapper.
+        return null;
     }
 }
