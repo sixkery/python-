@@ -15,14 +15,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2019/7/27
  */
 @Configuration
-public class CorsConfiguration implements WebMvcConfigurer {
+public class CorsConfig implements WebMvcConfigurer {
     private CorsConfiguration buildConfig() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addExposedHeader("Authorization");
-        return corsConfiguration;
+        CorsConfiguration corsConfig = new CorsConfiguration();
+
+        corsConfig.addAllowedOrigin("*");
+        corsConfig.addAllowedHeader("*");
+        corsConfig.addAllowedMethod("*");
+        corsConfig.addExposedHeader("Authorization");
+        return corsConfig;
     }
 
     @Bean

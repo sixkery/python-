@@ -1,13 +1,19 @@
 package com.sixkery.kike.admin.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sixkery.kike.admin.dto.UserDto;
 import com.sixkery.kike.admin.entity.system.MenuDO;
 import com.sixkery.kike.admin.entity.system.RoleDO;
+import com.sixkery.kike.admin.entity.system.UserDO;
 import com.sixkery.kike.admin.mapper.MenuMapper;
 import com.sixkery.kike.admin.mapper.RoleMapper;
 import com.sixkery.kike.admin.mapper.UserMapper;
 import com.sixkery.kike.admin.vo.UserVo;
+import com.sixkery.kike.common.PageInfo;
 import com.sixkery.kike.common.utils.NameUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,8 +83,24 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<UserDto> findAll() {
-        userMapper.
-        return null;
+    public PageInfo<UserDto> findAll() {
+        QueryWrapper<UserDO> queryWrapper = new QueryWrapper<>();
+
+        Page<UserDO> objectPage = new Page<>(1, 2);
+        IPage<UserDO> userDoPage = userMapper.selectPage(objectPage, queryWrapper);
+
+        PageInfo<UserDto> pageInfo = new PageInfo<>();
+        pageInfo.setPageSize(userDoPage.getSize());
+        pageInfo.setCurrentPage(userDoPage.getCurrent());
+        pageInfo.setTotal(userDoPage.getTotal());
+        List<UserDO> userDoList = userDoPage.getRecords();
+        List<UserDto> userList = new ArrayList<>();
+        userDoList.forEach(userDO -> {
+            UserDto userDto = new UserDto();
+            BeanUtils.copyProperties(userDO, userDto);
+            userList.add(userDto);
+        });
+        pageInfo.setContent(userList);
+        return pageInfo;
     }
 }
