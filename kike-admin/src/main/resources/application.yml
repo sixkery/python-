@@ -24,7 +24,8 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
 # minio 配置信息
 minio:
   endpoint: localhost
