@@ -2,9 +2,12 @@ package com.sixkery.kike.admin.configuration;
 
 import com.sixkery.kike.admin.configuration.security.*;
 import com.sixkery.kike.admin.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,9 +15,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -26,6 +33,9 @@ import javax.annotation.Resource;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+
+    @Autowired
+    private UmsAdminService adminService;
     @Resource
     private UserServiceImpl userService;
 
@@ -34,6 +44,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Resource
     private RestAccessDeniedHandler restAccessDeniedHandler;
+
+    @Autowired(required = false)
+    private DynamicSecurityService dynamicSecurityService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -51,7 +64,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
         // 任何请求都需要认证
         http.authorizeRequests().anyRequest().authenticated();
-        // 对登录注册要允许匿名访问;
 
         // 拦截账号密码 覆盖 UsernamePasswordAuthenticationFilter 过滤器
         http.addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -59,7 +71,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // 处理异常情况：认证失败和权限不足
         http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(restAccessDeniedHandler)
                 .and().addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
+        //有动态权限配置时添加动态权限校验过滤器
+        if (dynamicSecurityService != null) {
+            http.authorizeRequests().and().addFilterBefore(dynamicSecurityFilter(), FilterSecurityInterceptor.class);
+        }
 
     }
 
@@ -110,5 +125,36 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public IgnoreUrlsConfig ignoreUrlsConfig() {
         return new IgnoreUrlsConfig();
+    }
+
+    @ConditionalOnBean(name = "dynamicSecurityService")
+    @Bean
+    public DynamicAccessDecisionManager dynamicAccessDecisionManager() {
+        return new DynamicAccessDecisionManager();
+    }
+
+
+    @ConditionalOnBean(name = "dynamicSecurityService")
+    @Bean
+    public DynamicSecurityFilter dynamicSecurityFilter() {
+        return new DynamicSecurityFilter();
+    }
+
+    @ConditionalOnBean(name = "dynamicSecurityService")
+    @Bean
+    public DynamicSecurityMetadataSource dynamicSecurityMetadataSource() {
+        return new DynamicSecurityMetadataSource();
+    }
+
+    @Bean
+    public DynamicSecurityService dynamicSecurityService() {
+        return () -> {
+            Map<String, ConfigAttribute> map = new ConcurrentHashMap<>();
+            List<UmsResource> resourceList = resourceService.listAll();
+            for (UmsResource resource : resourceList) {
+                map.put(resource.getUrl(), new org.springframework.security.access.SecurityConfig(resource.getId() + ":" + resource.getName()));
+            }
+            return map;
+        };
     }
 }

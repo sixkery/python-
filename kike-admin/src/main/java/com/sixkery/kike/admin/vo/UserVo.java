@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.sixkery.kike.admin.dto.PermissionDto;
 import com.sixkery.kike.admin.dto.RoleDto;
-import com.sixkery.kike.admin.entity.system.UserDO;
+import com.sixkery.kike.admin.entity.system.UserDo;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author sixkery
  */
 @Data
-public class UserVo extends UserDO implements UserDetails {
+public class UserVo extends UserDo implements UserDetails {
     /**
      * 权限
      */

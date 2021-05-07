@@ -1,7 +1,7 @@
 package com.sixkery.kike.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sixkery.kike.admin.entity.system.UserDO;
+import com.sixkery.kike.admin.entity.system.UserDo;
 import com.sixkery.kike.admin.vo.UserVo;
 
 /**
@@ -13,7 +13,7 @@ import com.sixkery.kike.admin.vo.UserVo;
  * @since 2020-11-27
  */
 
-public interface UserMapper extends BaseMapper<UserDO> {
+public interface UserMapper extends BaseMapper<UserDo> {
     /**
      * 根据用户名查找用户实体
      *

@@ -1,7 +1,7 @@
 package com.sixkery.kike.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sixkery.kike.admin.entity.system.RoleDO;
+import com.sixkery.kike.admin.entity.system.RoleDo;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @author sixkery
  * @since 2020-11-27
  */
-public interface RoleMapper extends BaseMapper<RoleDO> {
+public interface RoleMapper extends BaseMapper<RoleDo> {
 
     /**
      * 根据用户 ID 获取用户拥有的菜单权限
@@ -21,6 +21,6 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
      * @param userId 用户 ID
      * @return 菜单权限
      */
-    List<RoleDO> findByUserId(Long userId);
+    List<RoleDo> findByUserId(Long userId);
 
 }

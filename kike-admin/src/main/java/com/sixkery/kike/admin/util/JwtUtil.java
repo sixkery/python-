@@ -1,6 +1,6 @@
 package com.sixkery.kike.admin.util;
 
-import com.sixkery.kike.admin.entity.system.UserDO;
+import com.sixkery.kike.admin.entity.system.UserDo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -131,7 +131,7 @@ public class JwtUtil {
      * @return 是否有效
      */
     public boolean validateToken(String token, UserDetails userDetails) {
-        UserDO user = (UserDO) userDetails;
+        UserDo user = (UserDo) userDetails;
         String username = getUsernameFromToken(token);
         return (username.equals(user.getUsername()) && !isTokenExpired(token));
     }

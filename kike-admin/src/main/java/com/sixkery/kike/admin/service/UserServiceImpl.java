@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sixkery.kike.admin.dto.UserDto;
-import com.sixkery.kike.admin.entity.system.MenuDO;
-import com.sixkery.kike.admin.entity.system.RoleDO;
-import com.sixkery.kike.admin.entity.system.UserDO;
+import com.sixkery.kike.admin.entity.system.MenuDo;
+import com.sixkery.kike.admin.entity.system.RoleDo;
+import com.sixkery.kike.admin.entity.system.UserDo;
 import com.sixkery.kike.admin.mapper.MenuMapper;
 import com.sixkery.kike.admin.mapper.RoleMapper;
 import com.sixkery.kike.admin.mapper.UserMapper;
@@ -70,10 +70,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         UserVo userVo = userMapper.findUsername(username);
         Long userId = userVo.getId();
         // 获取菜单
-        List<MenuDO> menuDos = menuMapper.findByUserId(userId);
+        List<MenuDo> menuDos = menuMapper.findByUserId(userId);
         HashMap<String, Object> resultMap = new HashMap<>(3);
         // 获取角色信息
-        List<RoleDO> roleDos = roleMapper.findByUserId(userId);
+        List<RoleDo> roleDos = roleMapper.findByUserId(userId);
         // 组转装数据
         resultMap.put("username", username);
         resultMap.put("menuList", menuDos);
@@ -84,20 +84,20 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public PageInfo<UserDto> findAll() {
-        QueryWrapper<UserDO> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<UserDo> queryWrapper = new QueryWrapper<>();
 
-        Page<UserDO> objectPage = new Page<>(1, 2);
-        IPage<UserDO> userDoPage = userMapper.selectPage(objectPage, queryWrapper);
+        Page<UserDo> objectPage = new Page<>(1, 2);
+        IPage<UserDo> userDoPage = userMapper.selectPage(objectPage, queryWrapper);
 
         PageInfo<UserDto> pageInfo = new PageInfo<>();
         pageInfo.setPageSize(userDoPage.getSize());
         pageInfo.setCurrentPage(userDoPage.getCurrent());
         pageInfo.setTotal(userDoPage.getTotal());
-        List<UserDO> userDoList = userDoPage.getRecords();
+        List<UserDo> userDoList = userDoPage.getRecords();
         List<UserDto> userList = new ArrayList<>();
-        userDoList.forEach(userDO -> {
+        userDoList.forEach(userDo -> {
             UserDto userDto = new UserDto();
-            BeanUtils.copyProperties(userDO, userDto);
+            BeanUtils.copyProperties(userDo, userDto);
             userList.add(userDto);
         });
         pageInfo.setContent(userList);

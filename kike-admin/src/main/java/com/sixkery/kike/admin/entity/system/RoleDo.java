@@ -3,13 +3,13 @@ package com.sixkery.kike.admin.entity.system;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.sixkery.kike.common.BaseDO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -22,29 +22,23 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_role")
-@ApiModel(value="Role对象", description="角色表")
-public class RoleDO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@ApiModel(value = "Role对象", description = "角色表")
+public class RoleDo extends BaseDO implements Serializable {
 
     @ApiModelProperty(value = "角色ID")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "角色名称")
-    private String roleName;
+    private String name;
+
+    @ApiModelProperty(value = "角色编码")
+    private String code;
 
     @ApiModelProperty(value = "角色描述")
-    private String remark;
-
-    @ApiModelProperty(value = "创建时间")
-    private Date createTime;
-
-    @ApiModelProperty(value = "修改时间")
-    private Date modifiedTime;
+    private String description;
 
     @ApiModelProperty(value = "是否可用,0:不可用，1：可用")
     private Integer status;
-
 
 }
