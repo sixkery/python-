@@ -20,7 +20,7 @@ public interface UserMapper extends BaseMapper<UserDo> {
      * @param username 用户名
      * @return 用户实体
      */
-    UserVo findUsername(String username);
+    UserDo findUsername(String username);
 
     /**
      * 根据用户名查找用户实体
@@ -28,7 +28,7 @@ public interface UserMapper extends BaseMapper<UserDo> {
      * @param mobile 用户名
      * @return 用户实体
      */
-    UserVo findByMobile(String mobile);
+    UserDo findByMobile(String mobile);
 
     /**
      * 根据用户名查找用户实体
@@ -36,5 +36,5 @@ public interface UserMapper extends BaseMapper<UserDo> {
      * @param email 用户名
      * @return 用户实体
      */
-    UserVo findByEmail(String email);
+    UserDo findByEmail(String email);
 }

@@ -1,13 +1,15 @@
 package com.sixkery.kike.admin.configuration;
 
 import com.sixkery.kike.admin.configuration.security.*;
+import com.sixkery.kike.admin.entity.system.ResourceDo;
+import com.sixkery.kike.admin.service.ResourceService;
 import com.sixkery.kike.admin.service.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,9 +35,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Resource
+    private ResourceService resourceService;
 
-    @Autowired
-    private UmsAdminService adminService;
     @Resource
     private UserServiceImpl userService;
 
@@ -45,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private RestAccessDeniedHandler restAccessDeniedHandler;
 
-    @Autowired(required = false)
+    @Resource
     private DynamicSecurityService dynamicSecurityService;
 
     @Override
@@ -127,20 +129,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new IgnoreUrlsConfig();
     }
 
-    @ConditionalOnBean(name = "dynamicSecurityService")
+//    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicAccessDecisionManager dynamicAccessDecisionManager() {
         return new DynamicAccessDecisionManager();
     }
 
 
-    @ConditionalOnBean(name = "dynamicSecurityService")
+//    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicSecurityFilter dynamicSecurityFilter() {
         return new DynamicSecurityFilter();
     }
 
-    @ConditionalOnBean(name = "dynamicSecurityService")
+//    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicSecurityMetadataSource dynamicSecurityMetadataSource() {
         return new DynamicSecurityMetadataSource();
@@ -149,10 +151,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public DynamicSecurityService dynamicSecurityService() {
         return () -> {
-            Map<String, ConfigAttribute> map = new ConcurrentHashMap<>();
-            List<UmsResource> resourceList = resourceService.listAll();
-            for (UmsResource resource : resourceList) {
-                map.put(resource.getUrl(), new org.springframework.security.access.SecurityConfig(resource.getId() + ":" + resource.getName()));
+            Map<String, ConfigAttribute> map = new ConcurrentHashMap<>(10);
+            List<ResourceDo> resourceList = resourceService.findAll();
+            for (ResourceDo resource : resourceList) {
+                map.put(resource.getUrl(), new SecurityConfig(resource.getId() + ":" + resource.getName()));
             }
             return map;
         };

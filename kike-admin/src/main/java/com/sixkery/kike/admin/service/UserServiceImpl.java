@@ -3,14 +3,16 @@ package com.sixkery.kike.admin.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sixkery.kike.admin.configuration.security.AdminUserDetails;
 import com.sixkery.kike.admin.dto.UserDto;
 import com.sixkery.kike.admin.entity.system.MenuDo;
+import com.sixkery.kike.admin.entity.system.ResourceDo;
 import com.sixkery.kike.admin.entity.system.RoleDo;
 import com.sixkery.kike.admin.entity.system.UserDo;
 import com.sixkery.kike.admin.mapper.MenuMapper;
+import com.sixkery.kike.admin.mapper.ResourceMapper;
 import com.sixkery.kike.admin.mapper.RoleMapper;
 import com.sixkery.kike.admin.mapper.UserMapper;
-import com.sixkery.kike.admin.vo.UserVo;
 import com.sixkery.kike.common.PageInfo;
 import com.sixkery.kike.common.utils.NameUtil;
 import org.springframework.beans.BeanUtils;
@@ -44,20 +46,27 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Resource
     private RoleMapper roleMapper;
 
+
+    @Resource
+    private ResourceMapper resourceMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserVo userVo;
+        UserDo userDo;
         if (NameUtil.username(username)) {
-            userVo = userMapper.findUsername(username);
+            userDo = userMapper.findUsername(username);
         } else if (NameUtil.email(username)) {
-            userVo = userMapper.findByEmail(username);
+            userDo = userMapper.findByEmail(username);
         } else {
-            userVo = userMapper.findByMobile(username);
+            userDo = userMapper.findByMobile(username);
         }
-        if (userVo == null) {
+        if (userDo == null) {
             throw new UsernameNotFoundException("用户名不存在！");
         }
-        return userVo;
+
+        List<ResourceDo> resourceDoList = resourceMapper.findByUserId(userDo.getId());
+
+        return new AdminUserDetails(userDo, resourceDoList);
     }
 
     @Override
@@ -67,8 +76,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        UserVo userVo = userMapper.findUsername(username);
-        Long userId = userVo.getId();
+        UserDo userDo = userMapper.findUsername(username);
+        Long userId = userDo.getId();
         // 获取菜单
         List<MenuDo> menuDos = menuMapper.findByUserId(userId);
         HashMap<String, Object> resultMap = new HashMap<>(3);

@@ -50,10 +50,10 @@ secure:
       - /actuator/**
       - /druid/**
       - /login
-      - /admin/register
-      - /admin/info
-      - /admin/logout
-      - /minio/upload
+      - /register
+      - /info
+      - /logout
+      - /upload
 logging:
   level:
     com.sixkery.kike.admin: debug

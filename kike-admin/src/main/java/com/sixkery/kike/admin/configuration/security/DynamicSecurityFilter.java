@@ -1,8 +1,10 @@
 package com.sixkery.kike.admin.configuration.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
+import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
@@ -21,8 +23,16 @@ import java.io.IOException;
  */
 public class DynamicSecurityFilter extends AbstractSecurityInterceptor implements Filter {
 
+    @Autowired
+    private DynamicSecurityMetadataSource dynamicSecurityMetadataSource;
+
     @Resource
     private IgnoreUrlsConfig ignoreUrlsConfig;
+
+    @Autowired
+    public void setMyAccessDecisionManager(DynamicAccessDecisionManager dynamicAccessDecisionManager) {
+        super.setAccessDecisionManager(dynamicAccessDecisionManager);
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -44,7 +54,18 @@ public class DynamicSecurityFilter extends AbstractSecurityInterceptor implement
                 return;
             }
         }
-        //
+        // 此处会调用 AccessDecisionManager 中的 decide 方法进行鉴权操作
+        InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
+        try {
+            filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
+        } finally {
+            super.afterInvocation(token, null);
+        }
+
+    }
+
+    @Override
+    public void destroy() {
     }
 
     @Override
@@ -54,6 +75,6 @@ public class DynamicSecurityFilter extends AbstractSecurityInterceptor implement
 
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
-        return null;
+        return dynamicSecurityMetadataSource;
     }
 }

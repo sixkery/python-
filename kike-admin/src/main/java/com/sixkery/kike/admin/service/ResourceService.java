@@ -1,10 +1,9 @@
 package com.sixkery.kike.admin.service;
 
 import com.sixkery.kike.admin.dto.UserDto;
-import com.sixkery.kike.common.PageInfo;
+import com.sixkery.kike.admin.entity.system.ResourceDo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author sixkery
@@ -16,6 +15,6 @@ public interface ResourceService {
      *
      * @return 资源
      */
-    List<UserDto> findAll();
+    List<ResourceDo> findAll();
 
 }
