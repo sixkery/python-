@@ -149,6 +149,7 @@ public class ApiResponses<T> {
 
 
     public static void print(HttpServletResponse response, ApiResponses<Object> model) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         response.setContentType("application/json;charset=utf-8");
         response.setCharacterEncoding("UTF-8");

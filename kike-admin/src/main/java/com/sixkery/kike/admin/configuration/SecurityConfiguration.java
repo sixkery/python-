@@ -12,11 +12,15 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -33,6 +37,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date:2021/4/1
  */
 @Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Resource
@@ -41,38 +47,33 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private UserServiceImpl userService;
 
-    @Resource
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-    @Resource
-    private RestAccessDeniedHandler restAccessDeniedHandler;
 
     @Resource
     private DynamicSecurityService dynamicSecurityService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        // 前后端分离项目不创建 session 使用 token 禁用缓存
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http.authorizeRequests();
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().headers().cacheControl();
-        http.formLogin().loginProcessingUrl("/login");
         //不需要保护的资源路径允许访问
         for (String url : ignoreUrlsConfig().getUrls()) {
-            http.authorizeRequests().antMatchers(url).permitAll();
+            registry.antMatchers(url).permitAll();
         }
-
         // 前端跨域请求会先进行一次 options 请求 // 允许对于网站静态资源的无授权访问
-        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
-        // 任何请求都需要认证
-        http.authorizeRequests().anyRequest().authenticated();
+        registry.antMatchers(HttpMethod.OPTIONS).permitAll();
+        registry.and().authorizeRequests().anyRequest().authenticated().and().csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(restfulAccessDeniedHandler())
+                .authenticationEntryPoint( restAuthenticationEntryPoint())
+                // 拦截账号密码 覆盖 UsernamePasswordAuthenticationFilter 过滤器
+                .and().addFilterBefore(jwtAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);
 
-        // 拦截账号密码 覆盖 UsernamePasswordAuthenticationFilter 过滤器
-        http.addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        // 前后端分离项目不创建 session 使用 token 禁用缓存
 
-        // 处理异常情况：认证失败和权限不足
-        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(restAccessDeniedHandler)
-                .and().addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
         //有动态权限配置时添加动态权限校验过滤器
         if (dynamicSecurityService != null) {
             http.authorizeRequests().and().addFilterBefore(dynamicSecurityFilter(), FilterSecurityInterceptor.class);
@@ -112,11 +113,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+    @Bean
+    public RestAccessDeniedHandler restfulAccessDeniedHandler() {
+        return new RestAccessDeniedHandler();
+    }
 
     @Bean
-    public RestAccessDeniedHandler restAuthenticationEntryPoint() {
-
-        return new RestAccessDeniedHandler();
+    public JwtAuthenticationEntryPoint restAuthenticationEntryPoint() {
+        return new JwtAuthenticationEntryPoint();
     }
 
     @Bean
