@@ -60,8 +60,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         // 判断请求是否是 json 格式，如果不是直接调用父类
-        System.out.println("request.getContentType() = " + request.getContentType());
-        if ("application/json;charset=UTF-8".equals(request.getContentType())) {
+        if (SecurityConstant.MEDIA_TYPE.equals(request.getContentType())) {
             // 把 request 的 json 数据转换为 Map 提取 username password
             Map<String, String> authenticationBean = null;
             UsernamePasswordAuthenticationToken authRequest = null;
