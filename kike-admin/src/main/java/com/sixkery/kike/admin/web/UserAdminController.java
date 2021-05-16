@@ -23,6 +23,7 @@ public class UserAdminController {
 
     /**
      * 获取登录用户的信息
+     *
      * @return 用户的信息
      */
     @GetMapping("/info")
@@ -32,6 +33,7 @@ public class UserAdminController {
 
     /**
      * 退出登录
+     *
      * @return ok
      */
     @GetMapping("/logout")
@@ -41,13 +43,13 @@ public class UserAdminController {
 
     /**
      * 查询全部用户信息
+     *
      * @return 用户信息
      */
     @GetMapping("/findAll")
     public ApiResponses<Object> findAll() {
         return ApiResponses.ok(userService.findAll());
     }
-
 
 
 }

@@ -7,7 +7,6 @@ import com.sixkery.kike.admin.util.JwtUtil;
 import com.sixkery.kike.common.exception.ApiException;
 import com.sixkery.kike.common.response.ApiResponses;
 import com.sixkery.kike.common.response.ResultCode;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -60,7 +59,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         // 判断请求是否是 json 格式，如果不是直接调用父类
-        if (SecurityConstant.MEDIA_TYPE.equals(request.getContentType())) {
+        if (request.getContentType().contains(SecurityConstant.MEDIA_TYPE)) {
             // 把 request 的 json 数据转换为 Map 提取 username password
             Map<String, String> authenticationBean = null;
             UsernamePasswordAuthenticationToken authRequest = null;
@@ -96,11 +95,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication authResult) throws IOException {
 
-        UserDetails userDetails = (UserDetails) authResult.getPrincipal();
-        // 将生成的 authentication 放入容器中，生成安全的上下文
-        SecurityContextHolder.getContext().setAuthentication(authResult);
+        AdminUserDetails userDetails = (AdminUserDetails) authResult.getPrincipal();
 
-        // 生成 token
+        System.out.println("userDetails = " + userDetails);
+
+        // 将生成的 authentication 放入容器中，生成安全的上下文
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, authResult.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        // 生成 token        // 生成 token
         JwtUtil jwtUtil = new JwtUtil();
         String token = jwtUtil.generateToken(userDetails);
         HashMap<String, Object> resultMap = new HashMap<>(2);

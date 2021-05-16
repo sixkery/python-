@@ -11,7 +11,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -166,8 +165,8 @@ public class RedisUtil {
     /**
      * 将值 value 关联到 key ，并将 key 的过期时间设为 timeout
      *
-     * @param key key
-     * @param value value
+     * @param key     key
+     * @param value   value
      * @param timeout 过期时间
      * @param unit    时间单位
      */
@@ -335,7 +334,7 @@ public class RedisUtil {
     /**
      * 获取存储在哈希表中指定字段的值
      *
-     * @param key key
+     * @param key   key
      * @param field 字段
      * @return 值
      */
@@ -356,7 +355,7 @@ public class RedisUtil {
     /**
      * 获取所有给定字段的值
      *
-     * @param key key
+     * @param key    key
      * @param fields 字段
      * @return 值
      */
@@ -367,9 +366,9 @@ public class RedisUtil {
     /**
      * 添加单个 hash
      *
-     * @param key key
+     * @param key     key
      * @param hashKey hash key
-     * @param value value
+     * @param value   value
      */
     public void hPut(String key, String hashKey, String value) {
         redisTemplate.opsForHash().put(key, hashKey, value);
@@ -489,7 +488,7 @@ public class RedisUtil {
     /**
      * 通过索引获取列表中的元素
      *
-     * @param key key
+     * @param key   key
      * @param index 索引
      * @return 元素
      */

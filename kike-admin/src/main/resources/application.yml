@@ -51,7 +51,7 @@ secure:
       - /druid/**
       - /login
       - /register
-      - /info
+      - /admin/info
       - /logout
       - /upload
 logging:

@@ -20,7 +20,6 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -67,12 +66,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler())
-                .authenticationEntryPoint( restAuthenticationEntryPoint())
+                .authenticationEntryPoint(restAuthenticationEntryPoint())
                 // 拦截账号密码 覆盖 UsernamePasswordAuthenticationFilter 过滤器
-                .and().addFilterBefore(jwtAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);
-
-        // 前后端分离项目不创建 session 使用 token 禁用缓存
-
+                .and().addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         //有动态权限配置时添加动态权限校验过滤器
         if (dynamicSecurityService != null) {
@@ -113,6 +109,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
     @Bean
     public RestAccessDeniedHandler restfulAccessDeniedHandler() {
         return new RestAccessDeniedHandler();
@@ -133,20 +130,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new IgnoreUrlsConfig();
     }
 
-//    @ConditionalOnBean(name = "dynamicSecurityService")
+    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicAccessDecisionManager dynamicAccessDecisionManager() {
         return new DynamicAccessDecisionManager();
     }
 
 
-//    @ConditionalOnBean(name = "dynamicSecurityService")
+    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicSecurityFilter dynamicSecurityFilter() {
         return new DynamicSecurityFilter();
     }
 
-//    @ConditionalOnBean(name = "dynamicSecurityService")
+    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicSecurityMetadataSource dynamicSecurityMetadataSource() {
         return new DynamicSecurityMetadataSource();

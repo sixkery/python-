@@ -73,10 +73,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public Map<String, Object> userInfo() {
 
         // 认证信息中提取用户名
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
 
-        UserDo userDo = userMapper.findUsername(username);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        AdminUserDetails principal = (AdminUserDetails) authentication.getPrincipal();
+
+        UserDo userDo = userMapper.findUsername(principal.getUsername());
         Long userId = userDo.getId();
         // 获取菜单
         List<MenuDo> menuDos = menuMapper.findByUserId(userId);
@@ -84,9 +85,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         // 获取角色信息
         List<RoleDo> roleDos = roleMapper.findByUserId(userId);
         // 组转装数据
-        resultMap.put("username", username);
-        resultMap.put("menuList", menuDos);
-        resultMap.put("roleList", roleDos);
+        resultMap.put("username", "username");
+        resultMap.put("menus", menuDos);
+        resultMap.put("icon", roleDos);
+        resultMap.put("roles", roleDos);
 
         return resultMap;
     }

@@ -27,7 +27,7 @@ public enum ResultCode implements ErrorCode {
      */
     UNAUTHORIZED(20005, "暂未登录或token已经过期"),
     FORBIDDEN(20006, "没有相关权限"),
-    TOKEN_NOTFOUND(20006, "没有相关权限"),
+    TOKEN_NOTFOUND(20006, "没有相关权限!"),
     API_PARAMS_ERROR(20007, "参数校验异常"),
     NULL_POINT_ERROR(20008, "空指针异常！");
 

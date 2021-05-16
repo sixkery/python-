@@ -9,11 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * 动态权限决策管理器，用于判断用户是否有访问权限
- * Created by macro on 2020/2/7.
+ *
+ * @author sixkery
+ * @date 2020/2/7
  */
 public class DynamicAccessDecisionManager implements AccessDecisionManager {
 
@@ -24,9 +25,7 @@ public class DynamicAccessDecisionManager implements AccessDecisionManager {
         if (CollUtil.isEmpty(configAttributes)) {
             return;
         }
-        Iterator<ConfigAttribute> iterator = configAttributes.iterator();
-        while (iterator.hasNext()) {
-            ConfigAttribute configAttribute = iterator.next();
+        for (ConfigAttribute configAttribute : configAttributes) {
             //将访问所需资源或用户拥有资源进行比对
             String needAuthority = configAttribute.getAttribute();
             for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
