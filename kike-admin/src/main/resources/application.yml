@@ -24,13 +24,16 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+# minio 配置信息
 minio:
   endpoint: localhost
   port: 9000
   accessKey: minioadmin
   secretKey: minioadmin
-
+  secure: false
+  bucketName: kike
 
 secure:
   ignored:
@@ -47,7 +50,10 @@ secure:
       - /actuator/**
       - /druid/**
       - /login
-      - /admin/register
+      - /register
       - /admin/info
-      - /admin/logout
-      - /minio/upload
+      - /logout
+      - /upload
+logging:
+  level:
+    com.sixkery.kike.admin: debug

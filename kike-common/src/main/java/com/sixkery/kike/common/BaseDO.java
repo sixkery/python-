@@ -1,4 +1,4 @@
-package com.sixkery.kike.common.utils;
+package com.sixkery.kike.common;
 
 import lombok.Data;
 
@@ -12,21 +12,10 @@ import java.time.LocalDateTime;
 @Data
 public class BaseDO {
 
-
-    /**
-     * 创建者
-     */
-    private String createBy;
-
     /**
      * 创建时间
      */
     private LocalDateTime createTime;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
 
     /**
      * 更新时间

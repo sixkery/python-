@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sixkery.kike.admin.mapper.RoleMapper">
 
-    <select id="findByUserId" resultType="com.sixkery.kike.admin.entity.system.RoleDO">
+    <select id="findByUserId" resultType="com.sixkery.kike.admin.entity.system.RoleDo">
         SELECT
             r.`name`
         FROM

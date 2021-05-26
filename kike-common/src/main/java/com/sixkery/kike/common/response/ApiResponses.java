@@ -72,6 +72,15 @@ public class ApiResponses<T> {
      * 失败返回结果
      *
      * @param errorCode 错误码
+     */
+    public static <T> ApiResponses<T> failed(ErrorCode errorCode, T data) {
+        return new ApiResponses<>(errorCode.getCode(), errorCode.getMessage(), data);
+    }
+
+    /**
+     * 失败返回结果
+     *
+     * @param errorCode 错误码
      * @param message   错误信息
      */
     public static <T> ApiResponses<T> failed(ErrorCode errorCode, String message) {
@@ -140,6 +149,7 @@ public class ApiResponses<T> {
 
 
     public static void print(HttpServletResponse response, ApiResponses<Object> model) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         response.setContentType("application/json;charset=utf-8");
         response.setCharacterEncoding("UTF-8");

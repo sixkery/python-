@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * mybatis-plus 配置
@@ -13,7 +14,8 @@ import org.springframework.context.annotation.Bean;
  * @author sixkery
  * @date 2020/11/29
  */
-public class MybatisPlusConfig {
+@Configuration
+public class MybatisPlusConfiguration {
 
     /**
      * 配置分页插件

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 没有权限访问处理
+ * 没有权限访问处理器
  *
  * @author sixkery
  * @date 2020/11/19

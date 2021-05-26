@@ -1,4 +1,4 @@
-package com.sixkery.kike.common.utils;
+package com.sixkery.kike.common;
 
 import lombok.Data;
 
@@ -13,24 +13,19 @@ import java.util.Collection;
 @Data
 public class PageInfo<T> {
     /**
-     * 页码
+     * 当前第几页
      */
-    private int page;
+    private long currentPage;
 
     /**
      * 每页条数,默认八条
      */
-    private int size;
-
-    /**
-     * 总页数
-     */
-    private int totalPage;
+    private long pageSize;
 
     /**
      * 总记录数
      */
-    private int totalRecords;
+    private long total;
 
     /**
      * 查询的内容

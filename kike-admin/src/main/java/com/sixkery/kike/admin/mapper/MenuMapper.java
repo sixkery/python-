@@ -1,7 +1,7 @@
 package com.sixkery.kike.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sixkery.kike.admin.entity.system.MenuDO;
+import com.sixkery.kike.admin.entity.system.MenuDo;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @author sixkery
  * @since 2020-11-27
  */
-public interface MenuMapper extends BaseMapper<MenuDO> {
+public interface MenuMapper extends BaseMapper<MenuDo> {
 
 
     /**
@@ -22,6 +22,6 @@ public interface MenuMapper extends BaseMapper<MenuDO> {
      * @param userId 用户 ID
      * @return 菜单权限
      */
-    List<MenuDO> findByUserId(Long userId);
+    List<MenuDo> findByUserId(Long userId);
 
 }

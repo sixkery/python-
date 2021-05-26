@@ -1,5 +1,8 @@
 package com.sixkery.kike.admin.service;
 
+import com.sixkery.kike.admin.dto.UserDto;
+import com.sixkery.kike.common.PageInfo;
+
 import java.util.Map;
 
 /**
@@ -9,7 +12,16 @@ public interface UserService {
     /**
      * 登录之后获取用户信息
      *
-     * @return 用户菜 单角色
+     * @return 用户菜单 角色
      */
     Map<String, Object> userInfo();
+
+
+    /**
+     * 查询全部用户信息
+     *
+     * @return 用户信息
+     */
+    PageInfo<UserDto> findAll();
+
 }
