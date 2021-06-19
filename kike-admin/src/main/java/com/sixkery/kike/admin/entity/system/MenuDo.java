@@ -37,7 +37,7 @@ public class MenuDo extends BaseDO implements Serializable {
     private String title;
 
     @ApiModelProperty(value = "菜单级别")
-    private String level;
+    private Integer level;
 
     @ApiModelProperty(value = "前端名称")
     private String name;

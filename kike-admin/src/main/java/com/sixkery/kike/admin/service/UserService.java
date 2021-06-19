@@ -1,8 +1,10 @@
 package com.sixkery.kike.admin.service;
 
 import com.sixkery.kike.admin.dto.UserDto;
+import com.sixkery.kike.admin.entity.system.RoleDo;
 import com.sixkery.kike.common.PageInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,8 +22,27 @@ public interface UserService {
     /**
      * 查询全部用户信息
      *
+     * @param pageNum  页码
+     * @param pageSize 每页大小
      * @return 用户信息
      */
-    PageInfo<UserDto> findAll();
+    PageInfo<UserDto> findAll(Integer pageNum, Integer pageSize);
+
+    /**
+     * 获取指定用户的角色
+     *
+     * @param id 用户 id
+     * @return 角色信息
+     */
+    List<RoleDo> getRoleList(Long id);
+
+    /**
+     * 更新用户的角色
+     *
+     * @param adminId 用户 id
+     * @param roleIds 角色列表
+     * @return 是否更新成功
+     */
+    Integer updateRole(Long adminId, List<Long> roleIds);
 
 }

@@ -4,6 +4,7 @@
 
     <select id="findByUserId" resultType="com.sixkery.kike.admin.entity.system.RoleDo">
         SELECT
+            r.id,
             r.`name`
         FROM
             sys_user_role ur

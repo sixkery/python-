@@ -40,7 +40,7 @@ public class UserDo extends BaseDO implements Serializable {
     private String phone;
 
     @ApiModelProperty(value = "头像")
-    private String avatar;
+    private String icon;
 
     @ApiModelProperty(value = "性别 0男 1女 2保密")
     private String gender;

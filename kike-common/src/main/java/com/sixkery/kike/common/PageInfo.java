@@ -30,6 +30,6 @@ public class PageInfo<T> {
     /**
      * 查询的内容
      */
-    private Collection<T> content;
+    private Collection<T> list;
 
 }

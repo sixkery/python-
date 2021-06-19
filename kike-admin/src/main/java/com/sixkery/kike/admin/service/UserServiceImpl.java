@@ -5,14 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sixkery.kike.admin.configuration.security.AdminUserDetails;
 import com.sixkery.kike.admin.dto.UserDto;
-import com.sixkery.kike.admin.entity.system.MenuDo;
-import com.sixkery.kike.admin.entity.system.ResourceDo;
-import com.sixkery.kike.admin.entity.system.RoleDo;
-import com.sixkery.kike.admin.entity.system.UserDo;
-import com.sixkery.kike.admin.mapper.MenuMapper;
-import com.sixkery.kike.admin.mapper.ResourceMapper;
-import com.sixkery.kike.admin.mapper.RoleMapper;
-import com.sixkery.kike.admin.mapper.UserMapper;
+import com.sixkery.kike.admin.entity.system.*;
+import com.sixkery.kike.admin.mapper.*;
 import com.sixkery.kike.common.PageInfo;
 import com.sixkery.kike.common.utils.NameUtil;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -45,6 +40,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Resource
     private RoleMapper roleMapper;
+
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
 
 
     @Resource
@@ -85,19 +84,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         // 获取角色信息
         List<RoleDo> roleDos = roleMapper.findByUserId(userId);
         // 组转装数据
-        resultMap.put("username", "username");
+        resultMap.put("username", userDo.getUsername());
         resultMap.put("menus", menuDos);
-        resultMap.put("icon", roleDos);
+        resultMap.put("icon", userDo.getIcon());
         resultMap.put("roles", roleDos);
 
         return resultMap;
     }
 
     @Override
-    public PageInfo<UserDto> findAll() {
+    public PageInfo<UserDto> findAll(Integer pageNum, Integer pageSize) {
         QueryWrapper<UserDo> queryWrapper = new QueryWrapper<>();
 
-        Page<UserDo> objectPage = new Page<>(1, 2);
+        Page<UserDo> objectPage = new Page<>(pageNum, pageSize);
         IPage<UserDo> userDoPage = userMapper.selectPage(objectPage, queryWrapper);
 
         PageInfo<UserDto> pageInfo = new PageInfo<>();
@@ -111,7 +110,30 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             BeanUtils.copyProperties(userDo, userDto);
             userList.add(userDto);
         });
-        pageInfo.setContent(userList);
+        pageInfo.setList(userList);
         return pageInfo;
+    }
+
+    @Override
+    public List<RoleDo> getRoleList(Long id) {
+        return roleMapper.findByUserId(id);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Integer updateRole(Long adminId, List<Long> roleIds) {
+        // 1. 删除已有的关系
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("user_id", adminId);
+        userRoleMapper.deleteByMap(map);
+        // 2. 绑定现有的关系
+        List<UserRoleDo> userRoleDos = new ArrayList<>();
+        for (Long roleId : roleIds) {
+            UserRoleDo userRoleDo = new UserRoleDo();
+            userRoleDo.setUserId(adminId);
+            userRoleDo.setRoleId(roleId);
+            userRoleDos.add(userRoleDo);
+        }
+        return userRoleMapper.insertBatch(userRoleDos);
     }
 }
