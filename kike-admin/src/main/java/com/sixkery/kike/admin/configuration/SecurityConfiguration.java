@@ -130,20 +130,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new IgnoreUrlsConfig();
     }
 
-    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicAccessDecisionManager dynamicAccessDecisionManager() {
         return new DynamicAccessDecisionManager();
     }
 
 
-    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicSecurityFilter dynamicSecurityFilter() {
         return new DynamicSecurityFilter();
     }
 
-    @ConditionalOnBean(name = "dynamicSecurityService")
     @Bean
     public DynamicSecurityMetadataSource dynamicSecurityMetadataSource() {
         return new DynamicSecurityMetadataSource();

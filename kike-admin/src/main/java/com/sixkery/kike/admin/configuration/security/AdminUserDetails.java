@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
  * @author: sixkery
  * @date:2021/5/7
  */
-public class AdminUserDetails implements UserDetails {
-    private UserDo userDo;
-    private List<ResourceDo> resourceDoList;
+public class AdminUserDetails implements UserDetails  {
+    private final UserDo userDo;
+    private final List<ResourceDo> resourceDoList;
 
     public AdminUserDetails(UserDo userDo, List<ResourceDo> resourceDoList) {
         this.userDo = userDo;

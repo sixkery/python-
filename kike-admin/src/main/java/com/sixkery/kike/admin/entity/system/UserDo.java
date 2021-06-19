@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_user")
 @ApiModel(value = "User对象", description = "用户表")
-public class UserDo extends BaseDO {
+public class UserDo extends BaseDO implements Serializable {
 
     @ApiModelProperty(value = "用户ID")
     private Long id;
