@@ -51,7 +51,7 @@ public class RoleController {
      * @return 是否更新成功
      */
     @PostMapping("/updateStatus/{id}")
-    public ApiResponses<Object> updateStatus(@PathVariable Long id, @RequestBody Integer status) {
+    public ApiResponses<Object> updateStatus(@PathVariable Long id, @RequestParam Integer status) {
         Integer count = roleService.updateStatus(id, status);
         if (count > 0) {
             return ApiResponses.ok();
