@@ -2,7 +2,6 @@ package com.sixkery.kike.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sixkery.kike.admin.entity.system.UserDo;
-import com.sixkery.kike.admin.vo.UserVo;
 
 /**
  * <p>

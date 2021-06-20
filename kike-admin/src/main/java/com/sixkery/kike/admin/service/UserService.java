@@ -24,9 +24,37 @@ public interface UserService {
      *
      * @param pageNum  页码
      * @param pageSize 每页大小
+     * @param keyword  搜索关键词
      * @return 用户信息
      */
-    PageInfo<UserDto> findAll(Integer pageNum, Integer pageSize);
+    PageInfo<UserDto> findAll(Integer pageNum, Integer pageSize, String keyword);
+
+
+    /**
+     * 新增用户的信息
+     *
+     * @param userDto 用户信息
+     * @return 是否新增成功
+     */
+    Integer register(UserDto userDto);
+
+    /**
+     * 更新用户的信息
+     *
+     * @param id      用户 id
+     * @param userDto 用户信息
+     * @return 是否更新成功
+     */
+    Integer updateUser(Long id, UserDto userDto);
+
+    /**
+     * 更新用户的启用状态
+     *
+     * @param id     用户的 ID
+     * @param status 用户 状态
+     * @return 是否更新成功
+     */
+    Integer updateStatus(Long id,Integer status);
 
     /**
      * 获取指定用户的角色

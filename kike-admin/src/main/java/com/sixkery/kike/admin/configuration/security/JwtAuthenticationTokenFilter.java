@@ -47,7 +47,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String authToken = token.substring("Bearer ".length());
             String username = jwtUtil.getUsernameFromToken(authToken);
             log.info("检验的用户名：{}", username);
-            Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
             if (StrUtil.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 // 查询数据库 获得用户名密码

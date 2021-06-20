@@ -1,5 +1,7 @@
 package com.sixkery.kike.admin.entity.system;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.sixkery.kike.common.BaseDO;
 import io.swagger.annotations.ApiModel;
@@ -25,6 +27,7 @@ import java.time.LocalDateTime;
 public class UserDo extends BaseDO implements Serializable {
 
     @ApiModelProperty(value = "用户ID")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "用户名")
@@ -47,6 +50,9 @@ public class UserDo extends BaseDO implements Serializable {
 
     @ApiModelProperty(value = "邮箱")
     private String email;
+
+    @ApiModelProperty(value = "备注")
+    private String note;
 
     @ApiModelProperty(value = "状态 0：禁用 1：启用")
     private Integer status;

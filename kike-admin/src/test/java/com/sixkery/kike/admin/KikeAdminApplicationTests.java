@@ -19,7 +19,7 @@ class KikeAdminApplicationTests {
     void contextLoads() {
         String encode = new BCryptPasswordEncoder().encode("123456");
         System.out.println("encode = " + encode);
-        PageInfo<UserDto> all = userService.findAll(1,2);
+        PageInfo<UserDto> all = userService.findAll(1,2,"admin");
         System.out.println("all = " + all);
     }
 

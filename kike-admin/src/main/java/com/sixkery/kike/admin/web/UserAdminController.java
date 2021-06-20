@@ -1,5 +1,6 @@
 package com.sixkery.kike.admin.web;
 
+import com.sixkery.kike.admin.dto.UserDto;
 import com.sixkery.kike.admin.service.UserService;
 import com.sixkery.kike.common.response.ApiResponses;
 import org.springframework.web.bind.annotation.*;
@@ -30,24 +31,70 @@ public class UserAdminController {
         return ApiResponses.ok(userService.userInfo());
     }
 
-    /**
-     * 退出登录
-     *
-     * @return ok
-     */
-    @GetMapping("/logout")
-    public ApiResponses<Object> logout() {
-        return ApiResponses.ok(null);
-    }
 
     /**
      * 查询全部用户信息
      *
+     * @param pageNum  页码
+     * @param pageSize 每页大小
+     * @param keyword  搜索关键词
      * @return 用户信息
      */
     @GetMapping("/list")
-    public ApiResponses<Object> findAll(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
-        return ApiResponses.ok(userService.findAll(pageNum, pageSize));
+    public ApiResponses<Object> findAll(@RequestParam Integer pageNum,
+                                        @RequestParam Integer pageSize,
+                                        @RequestParam(required = false) String keyword) {
+        return ApiResponses.ok(userService.findAll(pageNum, pageSize, keyword));
+    }
+
+    /**
+     * 新增用户的信息
+     *
+     * @param admin 用户信息
+     * @return 是否新增成功
+     */
+    @PostMapping("/register")
+    public ApiResponses<Object> register(@RequestBody UserDto admin) {
+        Integer count = userService.register(admin);
+        if (count > 0) {
+            return ApiResponses.ok();
+        } else {
+            return ApiResponses.failed();
+        }
+    }
+
+    /**
+     * 更新用户的信息
+     *
+     * @param id    用户 id
+     * @param admin 用户信息
+     * @return 是否更新成功
+     */
+    @PostMapping("/update/{id}")
+    public ApiResponses<Object> updateUser(@PathVariable Long id, @RequestBody UserDto admin) {
+        Integer count = userService.updateUser(id, admin);
+        if (count > 0) {
+            return ApiResponses.ok();
+        } else {
+            return ApiResponses.failed();
+        }
+    }
+
+    /**
+     * 更新用户的启用状态
+     *
+     * @param id     用户的 ID
+     * @param status 用户 状态
+     * @return 是否更新成功
+     */
+    @PostMapping("/updateStatus/{id}")
+    public ApiResponses<Object> updateStatus(@PathVariable Long id, @RequestBody Integer status) {
+        Integer count = userService.updateStatus(id, status);
+        if (count > 0) {
+            return ApiResponses.ok();
+        } else {
+            return ApiResponses.failed();
+        }
     }
 
     /**
@@ -76,8 +123,16 @@ public class UserAdminController {
         } else {
             return ApiResponses.failed();
         }
+    }
 
-
+    /**
+     * 退出登录
+     *
+     * @return ok
+     */
+    @GetMapping("/logout")
+    public ApiResponses<Object> logout() {
+        return ApiResponses.ok(null);
     }
 
 }

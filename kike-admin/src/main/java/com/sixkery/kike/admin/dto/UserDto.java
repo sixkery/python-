@@ -23,8 +23,14 @@ public class UserDto {
     @ApiModelProperty(value = "昵称")
     private String nickname;
 
+    @ApiModelProperty(value = "密码")
+    private String password;
+
     @ApiModelProperty(value = "头像")
     private String avatar;
+
+    @ApiModelProperty(value = "备注")
+    private String note;
 
     @ApiModelProperty(value = "邮箱")
     private String email;

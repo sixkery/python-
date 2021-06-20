@@ -1,6 +1,7 @@
 package com.sixkery.kike.admin.configuration;
 
 
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -23,14 +24,32 @@ public class DateFormConfiguration {
     private String pattern;
 
 
+    /**
+     * localDateTime 序列化器
+     *
+     * @return date 序列化
+     */
     @Bean
-    public LocalDateTimeSerializer localDateTimeDeserializer() {
+    public LocalDateTimeSerializer localDateTimeSerializer() {
         return new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * localDateTime 反序列化器
+     *
+     * @return date 反序列化
+     */
+    @Bean
+    public LocalDateTimeDeserializer localDateTimeDeserializer() {
+        return new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(pattern));
     }
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        return builder -> builder.serializerByType(LocalDateTime.class, localDateTimeDeserializer());
+        return builder -> {
+            builder.serializerByType(LocalDateTime.class, localDateTimeSerializer());
+            builder.deserializerByType(LocalDateTime.class, localDateTimeDeserializer());
+        };
     }
 
 
