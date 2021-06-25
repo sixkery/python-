@@ -66,3 +66,4 @@ public class AdminUserDetails implements UserDetails  {
         return userDo.getStatus().equals(1);
     }
 }
+// xie
