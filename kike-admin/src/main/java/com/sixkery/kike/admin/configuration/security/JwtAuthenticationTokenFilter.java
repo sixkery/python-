@@ -1,12 +1,11 @@
 package com.sixkery.kike.admin.configuration.security;
 
 import cn.hutool.core.util.StrUtil;
-import com.sixkery.kike.admin.constant.SecurityConstant;
+import com.sixkery.kike.admin.constant.Constant;
 import com.sixkery.kike.admin.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -41,7 +40,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         // 从 request 中获取 token
-        String token = request.getHeader(SecurityConstant.AUTHORIZATION);
+        String token = request.getHeader(Constant.AUTHORIZATION);
         if (StrUtil.isNotEmpty(token)) {
             // The part after "Bearer "
             String authToken = token.substring("Bearer ".length());

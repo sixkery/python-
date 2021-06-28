@@ -4,8 +4,8 @@ package com.sixkery.kike.admin.constant;
  * @author: sixkery
  * @date:2021/4/3
  */
-public class SecurityConstant {
-    private SecurityConstant() {
+public class Constant {
+    private Constant() {
     }
 
     public static final String AUTHORIZATION = "Authorization";

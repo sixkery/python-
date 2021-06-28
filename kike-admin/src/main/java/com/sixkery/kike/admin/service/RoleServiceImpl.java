@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: sixkery
@@ -38,6 +39,7 @@ public class RoleServiceImpl implements RoleService {
         Page<RoleDo> objectPage = new Page<>(pageNum, pageSize);
 
         IPage<RoleDo> roleDoPage = roleMapper.selectPage(objectPage, qw);
+        List<RoleDto> roleDtoList = roleMapper.findAll();
 
         PageInfo<RoleDto> pageInfo = new PageInfo<>();
         pageInfo.setPageSize(roleDoPage.getSize());
@@ -46,8 +48,14 @@ public class RoleServiceImpl implements RoleService {
         List<RoleDo> userDoList = roleDoPage.getRecords();
         List<RoleDto> roleList = new ArrayList<>();
         userDoList.forEach(roleDo -> {
+
             RoleDto roleDto = new RoleDto();
             BeanUtils.copyProperties(roleDo, roleDto);
+            Optional<RoleDto> first = roleDtoList.stream().filter(item -> roleDo.getId().equals(item.getId())).findFirst();
+            if (first.isPresent()) {
+                RoleDto role = first.get();
+                roleDto.setRoleCount(role.getRoleCount());
+            }
             roleList.add(roleDto);
         });
         pageInfo.setList(roleList);

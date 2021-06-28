@@ -31,5 +31,8 @@ public class RoleDto {
     @ApiModelProperty(value = "添加时间")
     private LocalDateTime createTime;
 
+    @ApiModelProperty(value = "用户数")
+    private Integer roleCount;
+
 
 }

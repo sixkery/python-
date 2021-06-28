@@ -1,6 +1,8 @@
 package com.sixkery.kike.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.sixkery.kike.admin.dto.RoleDto;
 import com.sixkery.kike.admin.entity.system.RoleDo;
 
 import java.util.List;
@@ -22,5 +24,7 @@ public interface RoleMapper extends BaseMapper<RoleDo> {
      * @return 菜单权限
      */
     List<RoleDo> findByUserId(Long userId);
+
+    List<RoleDto> findAll();
 
 }

@@ -2,7 +2,7 @@ package com.sixkery.kike.admin.configuration.security;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sixkery.kike.admin.constant.SecurityConstant;
+import com.sixkery.kike.admin.constant.Constant;
 import com.sixkery.kike.admin.util.JwtUtil;
 import com.sixkery.kike.common.exception.ApiException;
 import com.sixkery.kike.common.response.ApiResponses;
@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -55,11 +54,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         // 不是 post 请求抛出异常
-        if (!request.getMethod().equals(SecurityConstant.POST)) {
+        if (!request.getMethod().equals(Constant.POST)) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         // 判断请求是否是 json 格式，如果不是直接调用父类
-        if (request.getContentType().contains(SecurityConstant.MEDIA_TYPE)) {
+        if (request.getContentType().contains(Constant.MEDIA_TYPE)) {
             // 把 request 的 json 数据转换为 Map 提取 username password
             Map<String, String> authenticationBean = null;
             UsernamePasswordAuthenticationToken authRequest = null;
@@ -106,7 +105,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         JwtUtil jwtUtil = new JwtUtil();
         String token = jwtUtil.generateToken(userDetails);
         HashMap<String, Object> resultMap = new HashMap<>(2);
-        resultMap.put("tokenHead", SecurityConstant.TOKEN_HEAD);
+        resultMap.put("tokenHead", Constant.TOKEN_HEAD);
         resultMap.put("token", token);
 
         ApiResponses.print(response, ApiResponses.success(resultMap, "登录成功！"));

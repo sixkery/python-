@@ -3,13 +3,18 @@
 <mapper namespace="com.sixkery.kike.admin.mapper.RoleMapper">
 
     <select id="findByUserId" resultType="com.sixkery.kike.admin.entity.system.RoleDo">
-        SELECT
-            r.id,
-            r.`name`
-        FROM
-            sys_user_role ur
-                LEFT JOIN sys_role r ON ur.role_id = r.id
-        WHERE
-            ur.user_id = #{userId}
+        SELECT r.id,
+               r.`name`
+        FROM sys_user_role ur
+                 LEFT JOIN sys_role r ON ur.role_id = r.id
+        WHERE ur.user_id = #{userId}
+    </select>
+
+    <select id="findAll" resultType="com.sixkery.kike.admin.dto.RoleDto">
+        SELECT r.*,
+               ru.roleCount
+        FROM sys_role r
+                 JOIN (SELECT role_id, count(user_id) AS roleCount FROM sys_user_role GROUP BY role_id) ru
+                      ON r.id = ru.role_id
     </select>
 </mapper>
