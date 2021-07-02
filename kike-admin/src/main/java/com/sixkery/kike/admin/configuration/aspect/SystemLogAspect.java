@@ -1,15 +1,3 @@
-/*
- * All rights Reserved, Designed By www.kerrylogistics.com
- *
- * @version v1.0
- * @Title: SystemLogAspect
- * @Package: com.kerry.ktms.order.domain.config
- * @Description: 切控制器上的日志
- * @author: www.desmart.com.cn
- * @date: 2021/4/8
- * @Copyright: 2021嘉里大通物流有限公司. All rights reserved.
- * 注意：本内容仅限于嘉里大通物流有限公司内部传阅，禁止外泄以及用于其他的商业目的
- */
 package com.sixkery.kike.admin.configuration.aspect;
 
 

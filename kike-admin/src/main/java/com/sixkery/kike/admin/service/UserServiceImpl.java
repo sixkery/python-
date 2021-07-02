@@ -34,7 +34,6 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
 
-
     @Resource
     private UserMapper userMapper;
 
@@ -44,13 +43,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Resource
     private RoleMapper roleMapper;
 
-
     @Resource
     private UserRoleMapper userRoleMapper;
 
     @Resource
     private PasswordEncoder passwordEncoder;
-
 
     @Resource
     private ResourceMapper resourceMapper;

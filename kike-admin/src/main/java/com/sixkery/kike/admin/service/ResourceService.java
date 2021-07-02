@@ -1,6 +1,5 @@
 package com.sixkery.kike.admin.service;
 
-import com.sixkery.kike.admin.dto.UserDto;
 import com.sixkery.kike.admin.entity.system.ResourceDo;
 
 import java.util.List;

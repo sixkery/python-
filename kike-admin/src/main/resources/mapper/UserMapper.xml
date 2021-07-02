@@ -2,37 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sixkery.kike.admin.mapper.UserMapper">
     <select id="findUsername" resultType="com.sixkery.kike.admin.entity.system.UserDo">
-        SELECT
-            id,
-            username,
-            password,
-            status
-        FROM
-            sys_user
-        WHERE
-            username = #{username}
+        SELECT id,
+               username,
+               password,
+               status
+        FROM sys_user
+        WHERE username = #{username}
     </select>
     <select id="findByMobile" resultType="com.sixkery.kike.admin.entity.system.UserDo">
-        SELECT
-            id,
-            username,
-            password,
-            status
-        FROM
-            sys_user
-        WHERE
-            phone = #{username}
+        SELECT id,
+               username,
+               password,
+               status
+        FROM sys_user
+        WHERE phone = #{username}
     </select>
 
     <select id="findByEmail" resultType="com.sixkery.kike.admin.entity.system.UserDo">
-        SELECT
-            id,
-            username,
-            password,
-            status
-        FROM
-            sys_user
-        WHERE
-            email = #{username}
+        SELECT id,
+               username,
+               password,
+               status
+        FROM sys_user
+        WHERE email = #{username}
     </select>
 </mapper>

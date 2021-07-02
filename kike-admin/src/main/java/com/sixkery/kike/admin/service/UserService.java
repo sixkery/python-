@@ -54,7 +54,7 @@ public interface UserService {
      * @param status 用户 状态
      * @return 是否更新成功
      */
-    Integer updateStatus(Long id,Integer status);
+    Integer updateStatus(Long id, Integer status);
 
     /**
      * 获取指定用户的角色

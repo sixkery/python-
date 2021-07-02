@@ -3,18 +3,15 @@
 <mapper namespace="com.sixkery.kike.admin.mapper.ResourceMapper">
 
     <select id="findByUserId" resultType="com.sixkery.kike.admin.entity.system.ResourceDo">
-        SELECT
-            re.id,
-            re.`name`,
-            re.description,
-            re.url
-        FROM
-            sys_user_role ur
-                JOIN sys_role r ON ur.role_id = r.id
-                JOIN sys_role_resource rr ON r.id = rr.role_id
-                JOIN sys_resource re ON rr.resource_id = re.id
-        WHERE
-            ur.user_id = #{userId}
+        SELECT re.id,
+               re.`name`,
+               re.description,
+               re.url
+        FROM sys_user_role ur
+                 JOIN sys_role r ON ur.role_id = r.id
+                 JOIN sys_role_resource rr ON r.id = rr.role_id
+                 JOIN sys_resource re ON rr.resource_id = re.id
+        WHERE ur.user_id = #{userId}
     </select>
 
 </mapper>

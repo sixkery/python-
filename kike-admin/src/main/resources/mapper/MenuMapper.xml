@@ -3,25 +3,19 @@
 <mapper namespace="com.sixkery.kike.admin.mapper.MenuMapper">
 
     <select id="findByUserId" resultType="com.sixkery.kike.admin.entity.system.MenuDo">
-        SELECT
-            m.id,
-            m.parent_id,
-            m.title,
-            m.NAME,
-            m.sort,
-            m.LEVEL,
-            m.hidden,
-            m.icon
-
-        FROM
-            sys_user_role ur
-                LEFT JOIN sys_role r ON ur.role_id = r.id
-                LEFT JOIN sys_role_menu rm ON r.id = rm.role_id
-                LEFT JOIN sys_menu m ON rm.menu_id = m.id
-        WHERE
-            ur.user_id = #{userId}
-
-        GROUP BY
-            m.id;
+        SELECT m.id,
+               m.parent_id,
+               m.title,
+               m.NAME,
+               m.sort,
+               m.LEVEL,
+               m.hidden,
+               m.icon
+        FROM sys_user_role ur
+                 LEFT JOIN sys_role r ON ur.role_id = r.id
+                 LEFT JOIN sys_role_menu rm ON r.id = rm.role_id
+                 LEFT JOIN sys_menu m ON rm.menu_id = m.id
+        WHERE ur.user_id = #{userId}
+        GROUP BY m.id;
     </select>
 </mapper>
