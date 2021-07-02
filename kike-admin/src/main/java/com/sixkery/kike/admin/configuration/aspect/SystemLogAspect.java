@@ -34,10 +34,18 @@ import javax.servlet.http.HttpServletRequest;
 public class SystemLogAspect {
 
 
+    /**
+     * 切入点
+     */
     @Pointcut("execution(* com.sixkery.kike.admin.web.*(..)))")
     public void systemLog() {
     }
 
+    /**
+     * 在切入点之前
+     *
+     * @param joinPoint 对象
+     */
     @Before("systemLog()")
     public void before(JoinPoint joinPoint) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -61,6 +69,13 @@ public class SystemLogAspect {
 
     }
 
+    /**
+     * 环绕通知
+     *
+     * @param joinPoint 对象
+     * @return 结果
+     * @throws Throwable 异常
+     */
     @Around("systemLog()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
