@@ -10,13 +10,11 @@
  * @Copyright: 2021嘉里大通物流有限公司. All rights reserved.
  * 注意：本内容仅限于嘉里大通物流有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
-package com.kerry.ktms.order.domain.config;
+package com.sixkery.kike.admin.configuration.aspect;
 
 
 import com.alibaba.fastjson.JSON;
-import com.kerry.ktms.order.api.verify.ValidList;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -25,7 +23,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 
 /**
@@ -37,7 +34,7 @@ import java.util.ArrayList;
 public class SystemLogAspect {
 
 
-    @Pointcut("execution(* com.kerry.ktms.order.api..KappKoms2KtmsController.*(..)))")
+    @Pointcut("execution(* com.sixkery.kike.admin.web.*(..)))")
     public void systemLog() {
     }
 
@@ -59,26 +56,20 @@ public class SystemLogAspect {
         // 打印请求入参
         Object[] args = joinPoint.getArgs();
         for (Object arg : args) {
-            if (arg instanceof ValidList) {
-                val list = ((ValidList) arg).getList();
-                log.info("对接KAPP，KOMS入参 = {}", JSON.toJSONString(list));
-            } else {
-                log.info("请求参数     : {}", arg);
-            }
+            log.info("请求参数     : {}", arg);
         }
-
 
     }
 
     @Around("systemLog()")
-    public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
-        Object result = proceedingJoinPoint.proceed();
-        log.info("Class Method   : {}.{}", proceedingJoinPoint.getSignature().getDeclaringTypeName(), proceedingJoinPoint.getSignature().getName());
+        Object result = joinPoint.proceed();
+        log.info("Class Method   : {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
         // 打印出参
-        log.info("出参数据      : {}", JSON.toJSON((result)));
+        log.info("出参数据        : {}", JSON.toJSON((result)));
         // 执行耗时
-        log.info("执行耗时      : {} ms", System.currentTimeMillis() - startTime);
+        log.info("执行耗时        : {} ms", System.currentTimeMillis() - startTime);
         return result;
     }
 

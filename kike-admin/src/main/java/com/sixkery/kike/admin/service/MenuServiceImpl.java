@@ -21,7 +21,6 @@ public class MenuServiceImpl implements MenuService {
         QueryWrapper<MenuDo> qw = new QueryWrapper<>();
         List<MenuDo> menuDos = menuMapper.selectList(qw);
 
-        menuDos.forEach();
         return null;
     }
 }
