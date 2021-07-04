@@ -19,13 +19,13 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Configuration
 @Slf4j
-public class SystemLogAspect {
+public class WebLogAspect {
 
 
     /**
      * 切入点
      */
-    @Pointcut("execution(* com.sixkery.kike.admin.web.*(..)))")
+    @Pointcut("execution(* com.sixkery.kike.admin.web.*.*(..)))")
     public void systemLog() {
     }
 

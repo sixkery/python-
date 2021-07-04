@@ -19,7 +19,6 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<ResourceDo> findAll() {
-
         QueryWrapper<ResourceDo> queryWrapper = new QueryWrapper<>();
         return resourceMapper.selectList(queryWrapper);
 
