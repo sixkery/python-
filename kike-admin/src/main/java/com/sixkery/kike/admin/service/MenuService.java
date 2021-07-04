@@ -10,5 +10,10 @@ import java.util.List;
 public interface MenuService {
 
 
+    /**
+     * 查询菜单 tree
+     *
+     * @return 角色信息
+     */
     List<MenuDto> treeList();
 }

@@ -28,7 +28,6 @@ public class MenuController {
      */
     @GetMapping("/treeList")
     public ApiResponses<Object> treeList() {
-
         return ApiResponses.ok(menuService.treeList());
     }
 

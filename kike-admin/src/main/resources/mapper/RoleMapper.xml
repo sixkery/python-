@@ -17,4 +17,19 @@
                  JOIN (SELECT role_id, count(user_id) AS roleCount FROM sys_user_role GROUP BY role_id) ru
                       ON r.id = ru.role_id
     </select>
+    <select id="findMenu" resultType="com.sixkery.kike.admin.entity.system.MenuDo">
+        SELECT
+            m.id,
+            m.parent_id,
+            m.NAME
+        FROM
+            sys_role_menu rm
+                JOIN sys_menu m ON rm.menu_id = m.id
+        where rm.role_id = #{id}
+    </select>
+
+    <select id="delRelation">
+        delete from sys_role_menu where role_id = #{roleId}
+    </select>
+
 </mapper>
