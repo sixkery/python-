@@ -134,13 +134,7 @@ public class RoleController {
      */
     @PostMapping("/allocMenu")
     public ApiResponses<Object> allocMenu(@RequestParam Long roleId, @RequestParam List<Long> menuIds) {
-        Integer update = roleService.allocMenu(roleId, menuIds);
-        if (update > 0) {
-            return ApiResponses.ok();
-        } else {
-            return ApiResponses.failed();
-        }
-
+        return ApiResponses.ok(roleService.allocMenu(roleId, menuIds));
     }
 
 }
