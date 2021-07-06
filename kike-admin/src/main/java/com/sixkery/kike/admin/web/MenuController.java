@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- * 用户相关操作
+ * 菜单控制器
  *
  * @author: sixkery
  * @date:2021/4/5
@@ -65,7 +65,7 @@ public class MenuController {
      */
     @PostMapping("/update/{id}")
     public ApiResponses<Object> update(@PathVariable Long id, @RequestBody MenuDto menuDto) {
-        return ApiResponses.ok(menuService.update(id,menuDto));
+        return ApiResponses.ok(menuService.update(id, menuDto));
     }
 
     /**

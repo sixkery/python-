@@ -19,28 +19,18 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sys_resource")
+@TableName("sys_resource_category")
 @ApiModel(value = "资源对象", description = "资源表")
-public class ResourceDo extends BaseDO {
+public class ResourceCategoryDo extends BaseDO {
 
     @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(value = "主键")
     private Long id;
 
-    @ApiModelProperty(value = "资源名称")
+    @ApiModelProperty(value = "资源类型名称")
     private String name;
-
-    @ApiModelProperty(value = "资源表id")
-    private Integer categoryId;
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
-
-    @ApiModelProperty(value = "资源路径")
-    private String url;
-
-    @ApiModelProperty(value = "资源描述")
-    private String description;
-
 
 }

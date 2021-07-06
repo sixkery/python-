@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sixkery.kike.admin.dto.MenuDto;
+import com.sixkery.kike.admin.dto.ResourceDto;
 import com.sixkery.kike.admin.dto.RoleDto;
 import com.sixkery.kike.admin.entity.system.MenuDo;
+import com.sixkery.kike.admin.entity.system.ResourceDo;
 import com.sixkery.kike.admin.entity.system.RoleDo;
 import com.sixkery.kike.admin.entity.system.RoleMenuDo;
 import com.sixkery.kike.admin.mapper.RoleMapper;
@@ -124,6 +126,19 @@ public class RoleServiceImpl implements RoleService {
             menuDtoList.add(menuDto);
         });
         return menuDtoList;
+    }
+
+    @Override
+    public List<ResourceDto> listResource(Long id) {
+        List<ResourceDo> resourceDos = roleMapper.findResource(id);
+
+        List<ResourceDto> resourceDtoList = new ArrayList<>();
+        resourceDos.forEach(item -> {
+            ResourceDto resourceDto = new ResourceDto();
+            BeanUtils.copyProperties(item, resourceDto);
+            resourceDtoList.add(resourceDto);
+        });
+        return resourceDtoList;
     }
 
     @Override

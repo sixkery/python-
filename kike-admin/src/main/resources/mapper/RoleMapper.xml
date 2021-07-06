@@ -28,6 +28,17 @@
         where rm.role_id = #{id}
     </select>
 
+    <select id="findResource" resultType="com.sixkery.kike.admin.entity.system.ResourceDo">
+        SELECT
+            r.id,
+            r.name,
+            r.url
+        FROM
+            sys_role_resource rr
+                JOIN sys_resource r ON rr.resource_id = r.id
+        where rr.role_id = #{id}
+    </select>
+
     <select id="delRelation">
         delete from sys_role_menu where role_id = #{roleId}
     </select>

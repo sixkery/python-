@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 用户相关操作
+ * 角色控制器
  *
  * @author: sixkery
  * @date:2021/4/5
@@ -73,6 +73,21 @@ public class RoleController {
     public ApiResponses<Object> listMenu(@PathVariable Long id) {
         return ApiResponses.ok(roleService.listMenu(id));
     }
+
+
+
+
+    /**
+     * 查询角色拥有的资源
+     *
+     * @param id 角色 ID
+     * @return 角色信息
+     */
+    @GetMapping("/listResource/{id}")
+    public ApiResponses<Object> listResource(@PathVariable Long id) {
+        return ApiResponses.ok(roleService.listResource(id));
+    }
+
 
     /**
      * 新增角色

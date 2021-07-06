@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 用户相关操作
+ * 用户控制器
  *
  * @author: sixkery
  * @date:2021/4/5

@@ -1,6 +1,7 @@
 package com.sixkery.kike.admin.service;
 
 import com.sixkery.kike.admin.dto.MenuDto;
+import com.sixkery.kike.admin.dto.ResourceDto;
 import com.sixkery.kike.admin.dto.RoleDto;
 import com.sixkery.kike.common.PageInfo;
 
@@ -41,9 +42,17 @@ public interface RoleService {
      * 查询角色拥有的菜单
      *
      * @param id 角色 ID
-     * @return 角色信息
+     * @return 菜单信息
      */
     List<MenuDto> listMenu(Long id);
+
+    /**
+     * 查询角色拥有的资源
+     *
+     * @param id 角色 ID
+     * @return 资源信息
+     */
+    List<ResourceDto> listResource(Long id);
 
     /**
      * 新增角色

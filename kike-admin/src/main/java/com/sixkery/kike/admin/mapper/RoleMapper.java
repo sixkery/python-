@@ -1,8 +1,10 @@
 package com.sixkery.kike.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sixkery.kike.admin.dto.ResourceDto;
 import com.sixkery.kike.admin.dto.RoleDto;
 import com.sixkery.kike.admin.entity.system.MenuDo;
+import com.sixkery.kike.admin.entity.system.ResourceDo;
 import com.sixkery.kike.admin.entity.system.RoleDo;
 import org.apache.ibatis.annotations.Param;
 
@@ -41,6 +43,14 @@ public interface RoleMapper extends BaseMapper<RoleDo> {
      */
     List<MenuDo> findMenu(@Param("id") Long id);
 
+
+    /**
+     * 查询当前角色的资源
+     *
+     * @param id 角色 ID
+     * @return 资源信息
+     */
+    List<ResourceDo> findResource(@Param("id") Long id);
     /**
      * 删除角色和菜单关系
      *
