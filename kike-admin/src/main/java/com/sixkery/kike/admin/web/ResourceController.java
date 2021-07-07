@@ -1,11 +1,9 @@
 package com.sixkery.kike.admin.web;
 
+import com.sixkery.kike.admin.dto.ResourceDto;
 import com.sixkery.kike.admin.service.ResourceService;
 import com.sixkery.kike.common.response.ApiResponses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -30,9 +28,11 @@ public class ResourceController {
      * @return 资源信息
      */
     @GetMapping("/list")
-    public ApiResponses<Object> List(@RequestParam(defaultValue = "5") Integer pageSize,
-                                     @RequestParam(defaultValue = "1") Integer pageNum) {
-        return ApiResponses.ok(resourceService.list(pageSize, pageNum));
+    public ApiResponses<Object> list(@RequestParam(defaultValue = "5") Integer pageSize,
+                                     @RequestParam(defaultValue = "1") Integer pageNum,
+                                     @RequestParam(required = false) Long categoryId,
+                                     @RequestParam(required = false) String keyword) {
+        return ApiResponses.ok(resourceService.list(pageSize, pageNum,categoryId,keyword));
     }
 
     /**
@@ -45,50 +45,39 @@ public class ResourceController {
         return ApiResponses.ok(resourceService.findAll());
     }
 
-//    /**
-//     * 根据 ID 查询菜单
-//     *
-//     * @param id id
-//     * @return 菜单信息
-//     */
-//    @GetMapping("/{id}")
-//    public ApiResponses<Object> List(@PathVariable Long id) {
-//        return ApiResponses.ok(menuService.findOne(id));
-//    }
-//
-//
-//    /**
-//     * 根据 ID 更新菜单
-//     *
-//     * @param id      id
-//     * @param menuDto 入参数据
-//     * @return 更新条数
-//     */
-//    @PostMapping("/update/{id}")
-//    public ApiResponses<Object> update(@PathVariable Long id, @RequestBody MenuDto menuDto) {
-//        return ApiResponses.ok(menuService.update(id,menuDto));
-//    }
-//
-//    /**
-//     * 创建菜单
-//     *
-//     * @param menuDto 入参数据
-//     * @return 新增条数
-//     */
-//    @PostMapping("/create")
-//    public ApiResponses<Object> create(@RequestBody MenuDto menuDto) {
-//        return ApiResponses.ok(menuService.create(menuDto));
-//    }
-//
-//    /**
-//     * 删除菜单
-//     *
-//     * @param id 入参数据
-//     * @return 删除条数
-//     */
-//    @PostMapping("/delete/{id}")
-//    public ApiResponses<Object> deleted(@PathVariable Long id) {
-//        return ApiResponses.ok(menuService.delete(id));
-//    }
+
+    /**
+     * 创建资源
+     *
+     * @param resourceDto 入参数据
+     * @return 新增条数
+     */
+    @PostMapping("/create")
+    public ApiResponses<Object> create(@RequestBody ResourceDto resourceDto) {
+        return ApiResponses.ok(resourceService.create(resourceDto));
+    }
+
+    /**
+     * 根据 ID 更新资源
+     *
+     * @param id          id
+     * @param resourceDto 入参数据
+     * @return 更新条数
+     */
+    @PostMapping("/update/{id}")
+    public ApiResponses<Object> update(@PathVariable Long id, @RequestBody ResourceDto resourceDto) {
+        return ApiResponses.ok(resourceService.update(id, resourceDto));
+    }
+
+    /**
+     * 删除资源
+     *
+     * @param id 入参数据
+     * @return 删除条数
+     */
+    @PostMapping("/delete/{id}")
+    public ApiResponses<Object> deleted(@PathVariable Long id) {
+        return ApiResponses.ok(resourceService.delete(id));
+    }
 
 }

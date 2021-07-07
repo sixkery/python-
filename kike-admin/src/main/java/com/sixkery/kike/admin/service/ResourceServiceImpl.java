@@ -11,8 +11,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: sixkery
@@ -40,8 +42,14 @@ public class ResourceServiceImpl implements ResourceService {
      * @return 资源信息
      */
     @Override
-    public PageInfo<ResourceDto> list(Integer pageSize, Integer pageNum) {
+    public PageInfo<ResourceDto> list(Integer pageSize, Integer pageNum, Long categoryId, String keyword) {
         QueryWrapper<ResourceDo> qw = new QueryWrapper<>();
+        if (Optional.ofNullable(categoryId).isPresent()) {
+            qw.eq("category_id", categoryId);
+        }
+        if (Optional.ofNullable(keyword).isPresent()) {
+            qw.like("name", keyword).or().like("url", keyword);
+        }
 
         Page<ResourceDo> objectPage = new Page<>(pageNum, pageSize);
         IPage<ResourceDo> resourcePage = resourceMapper.selectPage(objectPage, qw);
@@ -60,5 +68,28 @@ public class ResourceServiceImpl implements ResourceService {
         });
         pageInfo.setList(resourceDtoList);
         return pageInfo;
+    }
+
+    @Override
+    public Integer create(ResourceDto resourceDto) {
+        ResourceDo resourceDo = new ResourceDo();
+        BeanUtils.copyProperties(resourceDto, resourceDo);
+        resourceDo.setCreateTime(LocalDateTime.now());
+        return resourceMapper.insert(resourceDo);
+    }
+
+    @Override
+    public Integer update(Long id, ResourceDto resourceDto) {
+        ResourceDo resourceDo = new ResourceDo();
+        BeanUtils.copyProperties(resourceDto, resourceDo);
+        resourceDo.setId(id);
+        resourceDo.setUpdateTime(LocalDateTime.now());
+        resourceDo.setCreateTime(null);
+        return resourceMapper.updateById(resourceDo);
+    }
+
+    @Override
+    public Integer delete(Long id) {
+        return resourceMapper.deleteById(id);
     }
 }
