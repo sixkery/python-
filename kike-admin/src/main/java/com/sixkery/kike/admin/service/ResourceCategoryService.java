@@ -16,5 +16,9 @@ public interface ResourceCategoryService {
      */
     List<ResourceCategoryDto> findAll();
 
+    Integer update(Long id, ResourceCategoryDto resourceCategoryDto);
+
+    Integer delete(Long id);
+
 
 }

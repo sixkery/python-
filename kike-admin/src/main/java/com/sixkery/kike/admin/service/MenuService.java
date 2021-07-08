@@ -53,5 +53,11 @@ public interface MenuService {
      */
     Integer create(MenuDto menuDto);
 
+    /**
+     * 删除菜单
+     *
+     * @param id 入参数据
+     * @return 删除条数
+     */
     Integer delete(Long id);
 }

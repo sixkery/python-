@@ -1,10 +1,9 @@
 package com.sixkery.kike.admin.web;
 
+import com.sixkery.kike.admin.dto.ResourceCategoryDto;
 import com.sixkery.kike.admin.service.ResourceCategoryService;
 import com.sixkery.kike.common.response.ApiResponses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -43,17 +42,17 @@ public class ResourceCategoryController {
 //    }
 //
 //
-//    /**
-//     * 根据 ID 更新菜单
-//     *
-//     * @param id      id
-//     * @param menuDto 入参数据
-//     * @return 更新条数
-//     */
-//    @PostMapping("/update/{id}")
-//    public ApiResponses<Object> update(@PathVariable Long id, @RequestBody MenuDto menuDto) {
-//        return ApiResponses.ok(menuService.update(id,menuDto));
-//    }
+    /**
+     * 根据 ID 更新资源分类
+     *
+     * @param id      id
+     * @param resourceCategoryDto 入参数据
+     * @return 更新条数
+     */
+    @PostMapping("/update/{id}")
+    public ApiResponses<Object> update(@PathVariable Long id, @RequestBody ResourceCategoryDto resourceCategoryDto) {
+        return ApiResponses.ok(resourceCategoryService.update(id,resourceCategoryDto));
+    }
 //
 //    /**
 //     * 创建菜单
@@ -66,15 +65,15 @@ public class ResourceCategoryController {
 //        return ApiResponses.ok(menuService.create(menuDto));
 //    }
 //
-//    /**
-//     * 删除菜单
-//     *
-//     * @param id 入参数据
-//     * @return 删除条数
-//     */
-//    @PostMapping("/delete/{id}")
-//    public ApiResponses<Object> deleted(@PathVariable Long id) {
-//        return ApiResponses.ok(menuService.delete(id));
-//    }
+    /**
+     * 删除资源分类
+     *
+     * @param id 入参数据
+     * @return 删除条数
+     */
+    @PostMapping("/delete/{id}")
+    public ApiResponses<Object> deleted(@PathVariable Long id) {
+        return ApiResponses.ok(resourceCategoryService.delete(id));
+    }
 
 }
